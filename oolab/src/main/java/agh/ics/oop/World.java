@@ -10,5 +10,9 @@ public class World {
 
     public static void run(String[] args) {
         System.out.println("zwierzak idzie do przodu");
+        for (int i = 0; i < args.length-1; i++) {
+            System.out.print(args[i] + ", ");
+        }
+        System.out.println(args[args.length-1]);
     }
 }

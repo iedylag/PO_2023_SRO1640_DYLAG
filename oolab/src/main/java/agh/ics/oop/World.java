@@ -3,16 +3,22 @@ package agh.ics.oop;
 public class World {
     public static void main(String[] args) {
 
-        System.out.println("system wystartował");
+        System.out.println("Start");
         run(args);
-        System.out.println("system zakończył działanie");
+        System.out.println("Stop");
     }
 
     public static void run(String[] args) {
-        System.out.println("zwierzak idzie do przodu");
-        for (int i = 0; i < args.length-1; i++) {
-            System.out.print(args[i] + ", ");
+        for (String arg : args) {
+            String move = switch (arg) {
+                case "f" -> "zwierzak idzie do przodu";
+                case "b" -> "zwierzak idzie do tylu";
+                case "l" -> "zwierzak skreca w lewo";
+                case "r" -> "zwierzak skreca w prawo";
+                default -> null;
+            };
+
+            System.out.println(move);
         }
-        System.out.println(args[args.length-1]);
     }
 }

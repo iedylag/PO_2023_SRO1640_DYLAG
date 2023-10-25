@@ -11,7 +11,7 @@ public class World {
         System.out.println("Stop");
     }
 
-    public static void run (MoveDirection[] directions) {
+    public static void run(MoveDirection[] directions) {
         for (MoveDirection direction : directions) {
             String move = switch (direction) {
                 case FORWARD -> "zwierzak idzie do przodu";

@@ -63,13 +63,17 @@ public class Vector2d {
         return new Vector2d(-other.x, -other.y);
     }
 
+    @Override
     public boolean equals(Object other) {
-        return this == other;
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Vector2d vector2d = (Vector2d) other;
+        return x == vector2d.x && y == vector2d.y;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
     }
-
+    
 }

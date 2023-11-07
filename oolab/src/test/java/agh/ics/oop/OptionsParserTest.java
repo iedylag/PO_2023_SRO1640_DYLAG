@@ -14,7 +14,7 @@ class OptionsParserTest {
         String[] args2 = {"a", "b", "x"};
         String[] args3 = {null, "b", "r", null};
 
-        MoveDirection[] expected1 = {MoveDirection.BACKWARD, MoveDirection.FORWARD,MoveDirection.FORWARD, MoveDirection.LEFT};
+        MoveDirection[] expected1 = {MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.LEFT};
         MoveDirection[] expected2 = {MoveDirection.BACKWARD};
         MoveDirection[] expected3 = {MoveDirection.BACKWARD, MoveDirection.RIGHT};
 

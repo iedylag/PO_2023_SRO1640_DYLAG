@@ -42,25 +42,21 @@ public class Vector2d {
     }
 
     public Vector2d upperRight(Vector2d other) {
-        int upperRightX;
-        int upperRightY;
-        upperRightX = other.x > this.x ? other.x : this.x;
-        upperRightY = other.y > this.y ? other.y : this.y;
+        int upperRightX = other.x > this.x ? other.x : this.x;
+        int upperRightY = other.y > this.y ? other.y : this.y;
 
         return new Vector2d(upperRightX, upperRightY);
     }
 
     public Vector2d lowerLeft(Vector2d other) {
-        int lowerLeftX;
-        int lowerLeftY;
-        lowerLeftX = other.x < this.x ? other.x : this.x;
-        lowerLeftY = other.y < this.y ? other.y : this.y;
+        int lowerLeftX = other.x < this.x ? other.x : this.x;
+        int lowerLeftY = other.y < this.y ? other.y : this.y;
 
         return new Vector2d(lowerLeftX, lowerLeftY);
     }
 
-    public Vector2d opposite(Vector2d other) {
-        return new Vector2d(-other.x, -other.y);
+    public Vector2d opposite() {
+        return new Vector2d(-this.x, -this.y);
     }
 
     @Override

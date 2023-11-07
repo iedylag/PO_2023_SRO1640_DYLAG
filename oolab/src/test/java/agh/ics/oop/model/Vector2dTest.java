@@ -56,7 +56,7 @@ class Vector2dTest {
     }
 
     @Test
-    void followsWorksCorrectly(){
+    void followsWorksCorrectly() {
         //given
         Vector2d vector1 = new Vector2d(1, 2);
         Vector2d vector1a = new Vector2d(1, 2); //same as vector1
@@ -74,7 +74,7 @@ class Vector2dTest {
     }
 
     @Test
-    void upperRightWorksCorrectly(){
+    void upperRightWorksCorrectly() {
         //given
         Vector2d vector1 = new Vector2d(2, 5);
         Vector2d vector2 = new Vector2d(3, 4);
@@ -83,12 +83,12 @@ class Vector2dTest {
         Vector2d vector3 = vector1.upperRight(vector2);
 
         // then
-        assertEquals(3,vector3.getX());
+        assertEquals(3, vector3.getX());
         assertEquals(5, vector3.getY());
     }
 
     @Test
-    void lowerLeftWorksCorrectly(){
+    void lowerLeftWorksCorrectly() {
         //given
         Vector2d vector1 = new Vector2d(2, 5);
         Vector2d vector2 = new Vector2d(3, 4);
@@ -97,12 +97,12 @@ class Vector2dTest {
         Vector2d vector3 = vector1.lowerLeft(vector2);
 
         // then
-        assertEquals(2,vector3.getX());
+        assertEquals(2, vector3.getX());
         assertEquals(4, vector3.getY());
     }
 
     @Test
-    void VectorsCanBeAdded(){
+    void VectorsCanBeAdded() {
         //given
         Vector2d vector1 = new Vector2d(2, 5);
         Vector2d vector2 = new Vector2d(3, 4);
@@ -111,12 +111,12 @@ class Vector2dTest {
         Vector2d vector3 = vector1.add(vector2);
 
         // then
-        assertEquals(5,vector3.getX());
+        assertEquals(5, vector3.getX());
         assertEquals(9, vector3.getY());
     }
 
     @Test
-    void VectorsCanBeSubtract(){
+    void VectorsCanBeSubtract() {
         //given
         Vector2d vector1 = new Vector2d(2, 5);
         Vector2d vector2 = new Vector2d(3, 4);
@@ -125,12 +125,12 @@ class Vector2dTest {
         Vector2d vector3 = vector1.subtract(vector2);
 
         // then
-        assertEquals(-1,vector3.getX());
+        assertEquals(-1, vector3.getX());
         assertEquals(1, vector3.getY());
     }
 
     @Test
-    void OppositeWorksCorrectly(){
+    void OppositeWorksCorrectly() {
         //given
         Vector2d vector1 = new Vector2d(2, -5);
         Vector2d vector2 = new Vector2d(0, 0);
@@ -140,9 +140,9 @@ class Vector2dTest {
         Vector2d vector4 = vector2.opposite();
 
         // then
-        assertEquals(-2,vector3.getX());
+        assertEquals(-2, vector3.getX());
         assertEquals(5, vector3.getY());
-        assertEquals(0,vector4.getX());
+        assertEquals(0, vector4.getX());
         assertEquals(0, vector4.getY());
     }
 }

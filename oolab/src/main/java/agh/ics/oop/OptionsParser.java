@@ -10,17 +10,19 @@ public class OptionsParser {
 
         int optionsCount = 0;
         for (String arg : args) {
-            MoveDirection direction = switch (arg) {
-                case "f" -> MoveDirection.FORWARD;
-                case "b" -> MoveDirection.BACKWARD;
-                case "l" -> MoveDirection.LEFT;
-                case "r" -> MoveDirection.RIGHT;
-                default -> null;
-            };
+            if (arg != null) {
+                MoveDirection direction = switch (arg) {
+                    case "f" -> MoveDirection.FORWARD;
+                    case "b" -> MoveDirection.BACKWARD;
+                    case "l" -> MoveDirection.LEFT;
+                    case "r" -> MoveDirection.RIGHT;
+                    default -> null;
+                };
 
-            if (direction != null) {
-                directions[optionsCount] = direction;
-                optionsCount++;
+                if (direction != null) {
+                    directions[optionsCount] = direction;
+                    optionsCount++;
+                }
             }
         }
         return Arrays.copyOfRange(directions, 0, optionsCount);

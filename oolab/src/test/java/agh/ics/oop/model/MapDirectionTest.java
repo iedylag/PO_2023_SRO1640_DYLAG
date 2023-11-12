@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 class MapDirectionTest {
 
     @Test
-    void nextDirection(){
+    void nextDirection() {
         //given
         MapDirection dirSouth = MapDirection.SOUTH;
         MapDirection dirEast = MapDirection.EAST;
@@ -28,7 +28,7 @@ class MapDirectionTest {
     }
 
     @Test
-    void prevDirection(){
+    void prevDirection() {
         //given
         MapDirection dirSouth = MapDirection.SOUTH;
         MapDirection dirEast = MapDirection.EAST;

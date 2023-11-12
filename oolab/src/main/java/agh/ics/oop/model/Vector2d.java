@@ -42,15 +42,15 @@ public class Vector2d {
     }
 
     public Vector2d upperRight(Vector2d other) {
-        int upperRightX = other.x > this.x ? other.x : this.x;
-        int upperRightY = other.y > this.y ? other.y : this.y;
+        int upperRightX = Math.max(other.x, this.x);
+        int upperRightY = Math.max(other.y, this.y);
 
         return new Vector2d(upperRightX, upperRightY);
     }
 
     public Vector2d lowerLeft(Vector2d other) {
-        int lowerLeftX = other.x < this.x ? other.x : this.x;
-        int lowerLeftY = other.y < this.y ? other.y : this.y;
+        int lowerLeftX = Math.min(other.x, this.x);
+        int lowerLeftY = Math.min(other.y, this.y);
 
         return new Vector2d(lowerLeftX, lowerLeftY);
     }

@@ -10,15 +10,19 @@ import java.util.List;
 
 public class Simulation {
     private List<MoveDirection> directions;
-    private List<Vector2d> positions;
     private List<Animal> animals = new ArrayList<>();
 
     public Simulation(List<MoveDirection> directions, List<Vector2d> positions) {
         this.directions = directions;
+
         for (Vector2d position : positions) {
             Animal animal = new Animal(position);
             animals.add(animal);
         }
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
     }
 
     public void run() {

@@ -2,7 +2,7 @@ package agh.ics.oop.model;
 
 public class Animal {
     private static final MapDirection DEFAULT_MAPDIRECTION = MapDirection.NORTH;
-    private MapDirection currentMapDirection = DEFAULT_MAPDIRECTION;
+    private MapDirection orientation = DEFAULT_MAPDIRECTION;
     private Vector2d position;
 
     //domyslny
@@ -17,7 +17,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Jest na pozycji " + position + " i zmierza na " + currentMapDirection;
+        return "Jest na pozycji " + position + " i zmierza na " + orientation;
     }
 
     boolean isAt(Vector2d position) {
@@ -28,16 +28,20 @@ public class Animal {
         return position;
     }
 
+    public MapDirection getOrientation() {
+        return orientation;
+    }
+
     public void move(MoveDirection direction) {
-        currentMapDirection = switch (direction) {
-            case RIGHT -> currentMapDirection.next();
-            case LEFT -> currentMapDirection.previous();
-            default -> currentMapDirection;
+        orientation = switch (direction) {
+            case RIGHT -> orientation.next();
+            case LEFT -> orientation.previous();
+            default -> orientation;
         };
 
         position = switch (direction) {
-            case FORWARD -> position.add(currentMapDirection.toUnitVector());
-            case BACKWARD -> position.subtract(currentMapDirection.toUnitVector());
+            case FORWARD -> position.add(orientation.toUnitVector());
+            case BACKWARD -> position.subtract(orientation.toUnitVector());
             default -> position;
         };
 

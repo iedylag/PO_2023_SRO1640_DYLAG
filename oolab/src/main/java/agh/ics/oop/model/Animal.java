@@ -5,13 +5,14 @@ public class Animal {
     private MapDirection currentMapDirection = DEFAULT_MAPDIRECTION;
     private Vector2d position;
 
-    public Animal(Vector2d position) {
-        this(position, DEFAULT_MAPDIRECTION);
+    //domyslny
+    public Animal() {
+        this(new Vector2d(2, 2));
     }
 
-    public Animal(Vector2d position, MapDirection currentMapDirection) {
-        this.currentMapDirection = currentMapDirection;
-        this.position = new Vector2d(2, 2);
+    //ustawiajacy pozycje
+    public Animal(Vector2d position) {
+        this.position = position;
     }
 
     @Override
@@ -21,6 +22,10 @@ public class Animal {
 
     boolean isAt(Vector2d position) {
         return position.equals(this.position); //Objects.equals(this.position , position);
+    }
+
+    public Vector2d getPosition() {
+        return position;
     }
 
     public void move(MoveDirection direction) {
@@ -40,9 +45,9 @@ public class Animal {
         Vector2d topVector = new Vector2d(4, 4);
 
         if (position.getX() < bottomVector.getX() || position.getY() < bottomVector.getY()) {
-            position.upperRight(bottomVector);
+            position = position.upperRight(bottomVector);
         } else if (position.getX() > topVector.getX() || position.getY() > topVector.getY()) {
-            position.lowerLeft(bottomVector);
+            position = position.lowerLeft(topVector);
         }
     }
 

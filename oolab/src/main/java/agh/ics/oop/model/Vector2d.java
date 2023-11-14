@@ -20,7 +20,7 @@ public class Vector2d {
     public int getY() {
         return y;
     }
-
+    @Override
     public String toString() {
         return "(%d,%d)".formatted(x, y);
     }

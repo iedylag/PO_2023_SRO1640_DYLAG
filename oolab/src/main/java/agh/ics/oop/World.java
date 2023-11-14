@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
@@ -23,6 +24,10 @@ public class World {
         System.out.println(MapDirection.WEST.next());
         System.out.println(MapDirection.NORTH.previous());
         System.out.println(MapDirection.NORTH.toUnitVector());
+
+        Animal Promil = new Animal(position2);
+        System.out.println(Promil);
+
     }
 
     public static void run(MoveDirection[] directions) {

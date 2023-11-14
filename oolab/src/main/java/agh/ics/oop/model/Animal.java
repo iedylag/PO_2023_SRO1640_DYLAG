@@ -1,8 +1,8 @@
 package agh.ics.oop.model;
 
 public class Animal {
-    private static final MapDirection DEFAULT_MAPDIRECTION = MapDirection.NORTH;
-    private MapDirection orientation = DEFAULT_MAPDIRECTION;
+    private static final MapDirection DEFAULT_MAP_DIRECTION = MapDirection.NORTH;
+    private MapDirection orientation = DEFAULT_MAP_DIRECTION;
     private Vector2d position;
 
     //domyslny
@@ -20,7 +20,7 @@ public class Animal {
         return "Jest na pozycji " + position + " i zmierza na " + orientation;
     }
 
-    boolean isAt(Vector2d position) {
+    public boolean isAt(Vector2d position) {
         return position.equals(this.position); //Objects.equals(this.position , position);
     }
 
@@ -36,13 +36,13 @@ public class Animal {
         orientation = switch (direction) {
             case RIGHT -> orientation.next();
             case LEFT -> orientation.previous();
-            default -> orientation;
+            case FORWARD, BACKWARD -> orientation;
         };
 
         position = switch (direction) {
             case FORWARD -> position.add(orientation.toUnitVector());
             case BACKWARD -> position.subtract(orientation.toUnitVector());
-            default -> position;
+            case RIGHT, LEFT -> position;
         };
 
         Vector2d bottomVector = new Vector2d(0, 0);
@@ -54,5 +54,4 @@ public class Animal {
             position = position.lowerLeft(topVector);
         }
     }
-
 }

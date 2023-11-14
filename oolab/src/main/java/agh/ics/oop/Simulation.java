@@ -27,12 +27,20 @@ public class Simulation {
 
     public void run() {
         int dirCount = 0;
-        while (dirCount < directions.size()) {
+        int numberOfLoops = directions.size() / animals.size();
+        int lastLoop = directions.size() % animals.size();
+
+        for (int j = 0; j < numberOfLoops; j++) {
             for (int i = 0; i < animals.size(); i++) {
                 animals.get(i).move(directions.get(dirCount));
                 dirCount++;
                 System.out.println("Animal " + (i + 1) + ": " + animals.get(i).getPosition().toString());
             }
+        }
+        for (int i = 0; i < lastLoop; i++) {
+            animals.get(i).move(directions.get(dirCount));
+            dirCount++;
+            System.out.println("Animal " + (i + 1) + ": " + animals.get(i).getPosition().toString());
         }
     }
 }

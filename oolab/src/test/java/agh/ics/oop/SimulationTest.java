@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SimulationTest {
 
     @Test
-    void testRun() {
+    void animalsDontGoOffTheMap() {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));

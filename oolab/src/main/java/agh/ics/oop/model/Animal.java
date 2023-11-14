@@ -39,19 +39,14 @@ public class Animal {
             case FORWARD, BACKWARD -> orientation;
         };
 
-        position = switch (direction) {
+        Vector2d newPosition = switch (direction) {
             case FORWARD -> position.add(orientation.toUnitVector());
             case BACKWARD -> position.subtract(orientation.toUnitVector());
             case RIGHT, LEFT -> position;
         };
 
-        Vector2d bottomVector = new Vector2d(0, 0);
-        Vector2d topVector = new Vector2d(4, 4);
-
-        if (position.getX() < bottomVector.getX() || position.getY() < bottomVector.getY()) {
-            position = position.upperRight(bottomVector);
-        } else if (position.getX() > topVector.getX() || position.getY() > topVector.getY()) {
-            position = position.lowerLeft(topVector);
+        if (newPosition.precedes(new Vector2d(0, 0)) && newPosition.follows(new Vector2d(4, 4))) {
+            position = newPosition;
         }
     }
 }

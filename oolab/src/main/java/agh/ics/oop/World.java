@@ -5,11 +5,13 @@ import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 
+import java.util.List;
+
 public class World {
     public static void main(String[] args) {
 
         System.out.println("Start");
-        MoveDirection[] directions = OptionsParser.parse(args);
+        List<MoveDirection> directions = OptionsParser.parse(args);
         run(directions);
         System.out.println("Stop");
 
@@ -30,7 +32,7 @@ public class World {
 
     }
 
-    public static void run(MoveDirection[] directions) {
+    public static void run(List<MoveDirection> directions) {
         for (MoveDirection direction : directions) {
             String move = switch (direction) {
                 case FORWARD -> "zwierzak idzie do przodu";

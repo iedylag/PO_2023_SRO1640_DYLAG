@@ -79,4 +79,21 @@ class SimulationTest {
 
     }
 
+    @Test
+    void testDoNotGoOnOccupiedPosition(){
+        //given
+        WorldMap map = new RectangularMap(5, 5);
+        Animal sheep = new Animal();
+        Animal sloth = new Animal(new Vector2d(2,3));
+        map.place(sheep);
+        map.place(sloth);
+
+        //when
+        map.move(sheep, MoveDirection.FORWARD);
+        map.move(sloth, MoveDirection.BACKWARD);
+
+        // then
+        assertEquals(new Vector2d(2,2), sheep.getPosition());
+        assertEquals(new Vector2d(2,3), sloth.getPosition());
+    }
 }

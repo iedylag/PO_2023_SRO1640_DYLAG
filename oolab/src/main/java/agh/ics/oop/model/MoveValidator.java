@@ -1,8 +1,6 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.Vector2d;
-
-public interface MoveValidator {
+public interface MoveValidator<Vector2d> {
 
     /**
      * Indicate if any object can move to the given position.

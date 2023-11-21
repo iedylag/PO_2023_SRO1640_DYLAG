@@ -12,7 +12,7 @@ class RectangularMapTest {
     @Test
     void testPlaceAnimalOnOccupiedPosition() {
         //given
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
 
         //when
@@ -26,7 +26,7 @@ class RectangularMapTest {
     @Test
     void testReturnObjectAt() {
         //given
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
         Animal sheep = new Animal(new Vector2d(3, 4));
 
         //when

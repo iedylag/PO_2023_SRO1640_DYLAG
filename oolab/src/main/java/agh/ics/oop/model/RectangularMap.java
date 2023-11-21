@@ -4,10 +4,10 @@ import agh.ics.oop.MapVisualizer;
 
 import java.util.*;
 
-public class RectangularMap implements WorldMap {
+public class RectangularMap implements WorldMap<Animal, Vector2d> {
     public final Vector2d lowerLeft = new Vector2d(0, 0);
     private final Vector2d upperRight;
-    private Map<Vector2d, Animal> animals = new HashMap<>();
+    private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     public RectangularMap(int height, int width) {
         upperRight = new Vector2d(width - 1, height - 1);

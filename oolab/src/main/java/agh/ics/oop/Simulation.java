@@ -2,16 +2,13 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class Simulation {
     private final List<MoveDirection> directions;
-    private final WorldMap map;
+    private final WorldMap<Animal, Vector2d> map;
 
-    public Simulation(List<MoveDirection> directions, WorldMap map) {
+    public Simulation(List<MoveDirection> directions, WorldMap<Animal, Vector2d> map) {
         this.directions = directions;
         this.map = map;
     }

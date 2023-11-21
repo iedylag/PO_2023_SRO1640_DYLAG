@@ -38,7 +38,7 @@ public class Animal {
         return orientation;
     }
 
-    public void move(MoveDirection direction, MoveValidator validator) {
+    public void move(MoveDirection direction, MoveValidator<Vector2d> validator) {
         orientation = switch (direction) {
             case RIGHT -> orientation.next();
             case LEFT -> orientation.previous();

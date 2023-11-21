@@ -42,9 +42,9 @@ class AnimalTest {
         Animal beardedDragon = new Animal(position2);
 
         //when
-        sloth.move(MoveDirection.BACKWARD);
-        sheep.move(MoveDirection.RIGHT); //stay in this position, change direction to EAST
-        beardedDragon.move(MoveDirection.FORWARD);
+        sloth.move(MoveDirection.BACKWARD, (MoveValidator) this);
+        sheep.move(MoveDirection.RIGHT, (MoveValidator) this); //stay in this position, change direction to EAST
+        beardedDragon.move(MoveDirection.FORWARD, (MoveValidator) this);
 
         // then
         assertEquals(0, sloth.getPosition().getX());

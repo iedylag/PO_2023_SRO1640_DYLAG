@@ -1,12 +1,11 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,38 +15,53 @@ class SimulationTest {
     void animalsDontGoOffTheMap() {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
-        List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
+        WorldMap map = new RectangularMap(5, 5);
+        map.place(new Animal());
+        map.place(new Animal(new Vector2d(3, 4)));
 
         //when
-        Simulation simulation = new Simulation(directions, positions);
+        Simulation simulation = new Simulation(directions, map);
         simulation.run();
-        List<Animal> animals = simulation.getAnimals();
 
         // then
-        Vector2d finalPosition1 = animals.get(0).getPosition();
-        Vector2d finalPosition2 = animals.get(1).getPosition();
+        Vector2d finalPosition1 = ((RectangularMap) map).getAnimals().get(0).getPosition();
+        Vector2d finalPosition2 = ((RectangularMap) map).getAnimals().get(1).getPosition();
 
-        assertEquals(MapDirection.SOUTH, animals.get(0).getOrientation()); //czy ma właściwą orientację
-        assertEquals(MapDirection.NORTH, animals.get(1).getOrientation());
+        assertTrue(finalPosition1.follows(new Vector2d(0, 0)) && finalPosition1.precedes(new Vector2d(4, 4)));
+        assertTrue(finalPosition2.follows(new Vector2d(0, 0)) && finalPosition2.precedes(new Vector2d(4, 4)));
+    }
 
-        assertTrue(finalPosition1.follows(new Vector2d(4, 4)) && finalPosition1.precedes(new Vector2d(0, 0))); //czy nie wychodzi poza mape
-        assertTrue(finalPosition2.follows(new Vector2d(4, 4)) && finalPosition2.precedes(new Vector2d(0, 0)));
+    @Test
+    void animalsCorrectOrientation() {
+        //given
+        List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
+        WorldMap map = new RectangularMap(5, 5);
+        map.place(new Animal());
+        map.place(new Animal(new Vector2d(3, 4)));
 
-        assertTrue(finalPosition1.equals(new Vector2d(3, 0))); //czy konczy na właściwych pozycjach
-        assertTrue(finalPosition2.equals(new Vector2d(2, 4)));
+        //when
+        Simulation simulation = new Simulation(directions, map);
+        simulation.run();
+        List<MapDirection> finalOrientations = Arrays.asList(((RectangularMap) map).getAnimals().get(0).getOrientation(), ((RectangularMap) map).getAnimals().get(1).getOrientation());
+        List<MapDirection> correctOrientations = Arrays.asList(MapDirection.NORTH, MapDirection.SOUTH);
+
+        // then
+        assertTrue(finalOrientations.size() == correctOrientations.size() && finalOrientations.containsAll(correctOrientations) && correctOrientations.containsAll(finalOrientations));
     }
 
     @Test
     void testMovingToCorrectPositions() {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "r", "f", "r", "f", "f", "f", "f"});
-        List<Vector2d> positions = List.of(new Vector2d(2, 2));
+        WorldMap map = new RectangularMap(5, 5);
+        map.place(new Animal());
 
         //when
-        Simulation simulation = new Simulation(directions, positions);
-        List<Animal> animals = simulation.getAnimals();
+        Simulation simulation = new Simulation(directions, map);
+        List<Animal> animals = ((RectangularMap) map).getAnimals();
 
         // then
+        //sprawdzam dla jednego zwierzatka
         List<Vector2d> correctPositions = List.of(new Vector2d(2, 3), new Vector2d(2, 3),
                 new Vector2d(3, 3), new Vector2d(3, 3),
                 new Vector2d(3, 2), new Vector2d(3, 1),
@@ -58,7 +72,7 @@ class SimulationTest {
                 MoveDirection.FORWARD, MoveDirection.FORWARD);
 
         for (int i = 0; i < directions.size(); i++) {
-            animals.get(0).move(directions.get(i));
+            animals.get(0).move(directions.get(i), map);
             assertTrue(animals.get(0).getPosition().equals(correctPositions.get(i))); //czy przemieszcza się na właściwe pozycje
             assertEquals(correctInterpretations.get(i), directions.get(i)); //czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
         }

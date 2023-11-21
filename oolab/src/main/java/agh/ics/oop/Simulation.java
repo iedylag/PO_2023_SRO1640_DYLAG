@@ -3,6 +3,7 @@ package agh.ics.oop;
 import agh.ics.oop.model.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,14 +17,11 @@ public class Simulation {
     }
 
     public void run() {
-        Map<Vector2d, Animal> animals = ((RectangularMap) map).getAnimals();
-        List<Animal> animalsValue = new ArrayList<>(animals.values());  //chyba zle, bo run() miala dzialac na mapie
+        List<Animal> animals = ((RectangularMap) map).getAnimals();
 
         for (int i = 0; i < directions.size(); i++) {
-            System.out.println(directions.get(i));
-            int animalIndex = i % animals.size();
-            Animal animalMoving = animalsValue.get(animalIndex);  //może uzyć objectAt?
-            map.move(animalMoving, directions.get(i));
+            Animal animal = animals.get(i % animals.size());
+            map.move(animal, directions.get(i));
             System.out.println(map);
         }
     }

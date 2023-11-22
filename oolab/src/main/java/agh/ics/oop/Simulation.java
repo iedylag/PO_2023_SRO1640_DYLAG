@@ -2,10 +2,7 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class Simulation {
     private final List<MoveDirection> directions;
@@ -17,7 +14,7 @@ public class Simulation {
     }
 
     public void run() {
-        List<Animal> animals = ((RectangularMap) map).getAnimals();
+        List<Animal> animals = map.getAnimals();
 
         for (int i = 0; i < directions.size(); i++) {
             Animal animal = animals.get(i % animals.size());

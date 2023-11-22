@@ -5,9 +5,9 @@ import agh.ics.oop.MapVisualizer;
 import java.util.*;
 
 public class RectangularMap implements WorldMap {
-    public final Vector2d lowerLeft = new Vector2d(0, 0);
+    public static final Vector2d LOWER_LEFT = new Vector2d(0, 0);
     private final Vector2d upperRight;
-    private Map<Vector2d, Animal> animals = new HashMap<>();
+    private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     public RectangularMap(int height, int width) {
         upperRight = new Vector2d(width - 1, height - 1);
@@ -19,7 +19,7 @@ public class RectangularMap implements WorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(lowerLeft) && position.precedes(upperRight) && !isOccupied(position);
+        return position.follows(LOWER_LEFT) && position.precedes(upperRight) && !isOccupied(position);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RectangularMap implements WorldMap {
         animal.move(direction, this);
         Vector2d newPosition = animal.getPosition();
 
-        if (!oldPosition.equals(newPosition)) {
+        if (!Objects.equals(oldPosition,newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
         }
@@ -60,6 +60,6 @@ public class RectangularMap implements WorldMap {
     @Override
     public String toString() {
         MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(lowerLeft, upperRight);
+        return visualizer.draw(LOWER_LEFT, upperRight);
     }
 }

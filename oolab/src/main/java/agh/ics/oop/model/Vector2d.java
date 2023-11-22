@@ -20,17 +20,18 @@ public class Vector2d {
     public int getY() {
         return y;
     }
+
     @Override
     public String toString() {
         return "(%d,%d)".formatted(x, y);
     }
 
     public boolean precedes(Vector2d other) {
-        return other.getX() <= this.x && other.getY() <= this.y;
+        return other.getX() >= this.x && other.getY() >= this.y;
     }
 
     public boolean follows(Vector2d other) {
-        return other.x >= this.x && other.y >= this.y;
+        return other.x <= this.x && other.y <= this.y;
     }
 
     public Vector2d add(Vector2d other) {
@@ -69,7 +70,7 @@ public class Vector2d {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(this.x, this.y);
     }
 
 }

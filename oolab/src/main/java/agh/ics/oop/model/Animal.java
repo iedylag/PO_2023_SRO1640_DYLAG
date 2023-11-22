@@ -1,8 +1,7 @@
 package agh.ics.oop.model;
 
+
 public class Animal {
-    public static final Vector2d LOW_BOUNDARY = new Vector2d(0, 0);
-    public static final Vector2d UP_BOUNDARY = new Vector2d(4, 4);
     private static final MapDirection DEFAULT_MAP_DIRECTION = MapDirection.NORTH;
     private MapDirection orientation = DEFAULT_MAP_DIRECTION;
     private Vector2d position;
@@ -19,7 +18,12 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Jest na pozycji " + position + " i zmierza na " + orientation;
+        return switch (orientation) {
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
+        };
     }
 
     public boolean isAt(Vector2d position) {
@@ -34,7 +38,7 @@ public class Animal {
         return orientation;
     }
 
-    public void move(MoveDirection direction) {
+    public void move(MoveDirection direction, MoveValidator validator) {
         orientation = switch (direction) {
             case RIGHT -> orientation.next();
             case LEFT -> orientation.previous();
@@ -47,8 +51,9 @@ public class Animal {
             case RIGHT, LEFT -> position;
         };
 
-        if (newPosition.precedes(LOW_BOUNDARY) && newPosition.follows(UP_BOUNDARY)) {
+        if (validator.canMoveTo(newPosition)) {
             position = newPosition;
         }
+
     }
 }

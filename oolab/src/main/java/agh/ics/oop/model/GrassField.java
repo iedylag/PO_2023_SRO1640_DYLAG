@@ -9,38 +9,35 @@ import static agh.ics.oop.model.RectangularMap.LOWER_LEFT;
 public class GrassField implements WorldMap {
     private final Map<Vector2d, Grass> trawki = new HashMap<>();
     private final Map<Vector2d, Animal> animals = new HashMap<>();
-
-    private Vector2d grassLowerLeft = LOWER_LEFT;
-    private Vector2d grassUpperRight = LOWER_LEFT;
-    private Vector2d animalLowerLeft = LOWER_LEFT;
-    private Vector2d animalUpperRight = LOWER_LEFT;
+    private Vector2d lowBoundary = LOWER_LEFT;
+    private Vector2d upBoundary = LOWER_LEFT;
 
     public GrassField(int countTrawki) {
-        Vector2d upperRight = new Vector2d((int) Math.sqrt(countTrawki * 10), (int) Math.sqrt(countTrawki * 10));
+        Vector2d grassBoundary = new Vector2d((int) Math.sqrt(countTrawki * 10), (int) Math.sqrt(countTrawki * 10));
 
-        int X;
-        int Y;
         int positionsCount = 0;
-
         while (positionsCount < countTrawki) {
-            X = (int) (Math.random() * upperRight.getX());
-            Y = (int) (Math.random() * upperRight.getY());
-            Vector2d grassPosition = new Vector2d(X, Y);
-            if (!trawki.containsKey(grassPosition)) {
-                trawki.put(grassPosition, new Grass(grassPosition));
+            int X = (int) (Math.random() * grassBoundary.getX());
+            int Y = (int) (Math.random() * grassBoundary.getY());
+            Vector2d grassField = new Vector2d(X, Y);
+            if (!trawki.containsKey(grassField)) {
+                trawki.put(grassField, new Grass(grassField));
+                positionsCount++;
 
                 /* wyznaczamy skrajne pozycje trawki */
-                this.grassLowerLeft = grassPosition.lowerLeft(grassLowerLeft);
-                this.grassUpperRight = grassPosition.upperRight(grassUpperRight);
-
-                positionsCount++;
+                this.lowBoundary = grassField.lowerLeft(lowBoundary);
+                this.upBoundary = grassField.upperRight(upBoundary);
             }
         }
     }
 
+    public Map<Vector2d, Grass> getTrawki() {
+        return trawki;
+    }
+
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position);
+        return !animals.containsKey(position);
     }
 
     @Override
@@ -53,8 +50,8 @@ public class GrassField implements WorldMap {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animalPosition)) {
             animals.put(animalPosition, animal);
-            animalLowerLeft = animalPosition.lowerLeft(animalLowerLeft);
-            animalUpperRight = animalPosition.upperRight(animalUpperRight);
+            lowBoundary = animalPosition.lowerLeft(lowBoundary);
+            upBoundary = animalPosition.upperRight(upBoundary);
             return true;
         }
         return false;
@@ -71,8 +68,8 @@ public class GrassField implements WorldMap {
             animals.put(newPosition, animal);
 
             /* przy kazdym przesuwaniu sprawdzamy czy mapa sie nie zwieksza */
-            animalLowerLeft = newPosition.lowerLeft(animalLowerLeft);
-            animalUpperRight = newPosition.upperRight(animalUpperRight);
+            lowBoundary = newPosition.lowerLeft(lowBoundary);
+            upBoundary = newPosition.upperRight(upBoundary);
         }
 
     }
@@ -88,13 +85,13 @@ public class GrassField implements WorldMap {
             return animals.get(position);
         } else if (trawki.containsKey(position)) {
             return trawki.get(position);
-        }//(WorldElement) Arrays.asList(trawki.get(position), animals.get(position));
+        }
         return null;
     }
 
     @Override
     public String toString() {
         MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(grassLowerLeft.lowerLeft(animalLowerLeft), grassUpperRight.upperRight(animalUpperRight));
+        return visualizer.draw(lowBoundary, upBoundary);
     }
 }

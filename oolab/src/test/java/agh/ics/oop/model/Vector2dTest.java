@@ -36,24 +36,6 @@ class Vector2dTest {
     }
 
     @Test
-    void precedesWorksCorrectly() {
-        //given
-        Vector2d vector1 = new Vector2d(1, 2);
-        Vector2d vector1a = new Vector2d(1, 2); //same as vector1
-        Vector2d vector2 = new Vector2d(3, 5); //x & y greater than in vector1
-        Vector2d vector3 = new Vector2d(2, 2); //x greater than in vector1
-        Vector2d vector4 = new Vector2d(1, 3); //y greater than in vector1
-
-        //when-then
-        assertTrue(vector1.precedes(vector1)); //same vector
-        assertTrue(vector1a.precedes(vector1)); //same coordinates
-        assertTrue(vector2.precedes(vector1)); //1 precedes 2
-        assertFalse(vector1.precedes(vector2)); //2 does not precede 1
-        assertTrue(vector3.precedes(vector1)); //1 precedes 3
-        assertTrue(vector4.precedes(vector1)); //1 precedes 4
-    }
-
-    @Test
     void followsWorksCorrectly() {
         //given
         Vector2d vector1 = new Vector2d(1, 2);
@@ -65,10 +47,28 @@ class Vector2dTest {
         //when-then
         assertTrue(vector1.follows(vector1)); //same vector
         assertTrue(vector1a.follows(vector1)); //same coordinates
-        assertFalse(vector2.follows(vector1)); //1 does not follow 2
-        assertTrue(vector1.follows(vector2)); //2 follows 1
-        assertTrue(vector1.follows(vector3)); //3 follows 1
-        assertTrue(vector1.follows(vector4)); //4 follows 1
+        assertTrue(vector2.follows(vector1)); //1 follows 2
+        assertFalse(vector1.follows(vector2)); //2 does not precede 1
+        assertTrue(vector3.follows(vector1)); //1 follows 3
+        assertTrue(vector4.follows(vector1)); //1 follows 4
+    }
+
+    @Test
+    void precedesWorksCorrectly() {
+        //given
+        Vector2d vector1 = new Vector2d(1, 2);
+        Vector2d vector1a = new Vector2d(1, 2); //same as vector1
+        Vector2d vector2 = new Vector2d(3, 5); //x & y greater than in vector1
+        Vector2d vector3 = new Vector2d(2, 2); //x greater than in vector1
+        Vector2d vector4 = new Vector2d(1, 3); //y greater than in vector1
+
+        //when-then
+        assertTrue(vector1.precedes(vector1)); //same vector
+        assertTrue(vector1a.precedes(vector1)); //same coordinates
+        assertFalse(vector2.precedes(vector1)); //1 does not follow 2
+        assertTrue(vector1.precedes(vector2)); //2 follows 1
+        assertTrue(vector1.precedes(vector3)); //3 follows 1
+        assertTrue(vector1.precedes(vector4)); //4 follows 1
     }
 
     @Test

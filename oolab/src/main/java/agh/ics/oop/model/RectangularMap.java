@@ -13,6 +13,7 @@ public class RectangularMap implements WorldMap {
         upperRight = new Vector2d(width - 1, height - 1);
     }
 
+    @Override
     public List<Animal> getAnimals() {
         return List.copyOf(animals.values());
     }
@@ -26,7 +27,7 @@ public class RectangularMap implements WorldMap {
     public boolean place(Animal animal) {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animalPosition)) {
-            animals.put(animal.getPosition(), animal);
+            animals.put(animalPosition, animal);
             return true;
         }
         return false;
@@ -38,7 +39,7 @@ public class RectangularMap implements WorldMap {
         animal.move(direction, this);
         Vector2d newPosition = animal.getPosition();
 
-        if (!Objects.equals(oldPosition,newPosition)) {
+        if (!Objects.equals(oldPosition, newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
         }
@@ -51,7 +52,7 @@ public class RectangularMap implements WorldMap {
 
     @Override
     public Animal objectAt(Vector2d position) {
-        if (animals.containsKey(position)) {
+        if (isOccupied(position)) {
             return animals.get(position);
         }
         return null;

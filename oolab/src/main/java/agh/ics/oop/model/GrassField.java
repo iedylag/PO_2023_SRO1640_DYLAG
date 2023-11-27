@@ -39,26 +39,23 @@ public class GrassField extends AbstractWorldMap {
         return elements;
     }
 
+    private void mapBoundary(Animal animal) {
+        Vector2d animalPosition = animal.getPosition();
+        lowBoundary = animalPosition.lowerLeft(lowBoundary);
+        upBoundary = animalPosition.upperRight(upBoundary);
+    }
+
     @Override
     public boolean place(Animal animal) {
         boolean placed = super.place(animal);
-        Vector2d animalPosition = animal.getPosition();
-
-        /* moze byc poza if bo jesli nie mozna postawic zwierzatka to oznacza, ze jest tam juz inne zwierzatko wiec pozycja ta byla juz rozwazana wczesniej */
-        lowBoundary = animalPosition.lowerLeft(lowBoundary);
-        upBoundary = animalPosition.upperRight(upBoundary);
-
+        mapBoundary(animal);
         return placed;
     }
 
     @Override
     public void move(Animal animal, MoveDirection direction) {
         super.move(animal, direction);
-        Vector2d newPosition = animal.getPosition();
-
-        /* tutaj ta sama logika, wiec poza if */
-        lowBoundary = newPosition.lowerLeft(lowBoundary);
-        upBoundary = newPosition.upperRight(upBoundary);
+        mapBoundary(animal);
     }
 
     @Override

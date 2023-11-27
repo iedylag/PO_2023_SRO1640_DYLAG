@@ -4,31 +4,28 @@ import agh.ics.oop.MapVisualizer;
 
 import java.util.*;
 
-import static agh.ics.oop.model.RectangularMap.LOWER_LEFT;
 
-public class GrassField implements WorldMap {
+public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> trawki = new HashMap<>();
-    private final Map<Vector2d, Animal> animals = new HashMap<>();
     private Vector2d lowBoundary = LOWER_LEFT;
-    private Vector2d upBoundary = LOWER_LEFT;
+    private Vector2d upBoundary;
 
     public GrassField(int countTrawki) {
         Vector2d grassBoundary = new Vector2d((int) Math.sqrt(countTrawki * 10), (int) Math.sqrt(countTrawki * 10));
 
         int positionsCount = 0;
         while (positionsCount < countTrawki) {
-            int X = (int) (Math.random() * grassBoundary.getX());
-            int Y = (int) (Math.random() * grassBoundary.getY());
+            int X = (int) (Math.random() * (grassBoundary.getX() + 1)); //zakladam, ze np. przy n=10, obszar jest od (0,0) do (10,10) wlacznie
+            int Y = (int) (Math.random() * (grassBoundary.getY() + 1));
             Vector2d grassField = new Vector2d(X, Y);
             if (!trawki.containsKey(grassField)) {
                 trawki.put(grassField, new Grass(grassField));
                 positionsCount++;
-
-                /* wyznaczamy skrajne pozycje trawki */
-                this.lowBoundary = grassField.lowerLeft(lowBoundary);
-                this.upBoundary = grassField.upperRight(upBoundary);
             }
         }
+        upBoundary = grassBoundary;
+        /* uprosciłam, bo wydaje mi sie, ze malo wydajne bylo porownywanie po kazdym dodaniu trawy,
+        szczegolnie, ze sama sobie wczesniej wymyslilam, ze mapa nie ma byc wieksza niz pole trawy */
     }
 
     public Map<Vector2d, Grass> getTrawki() {
@@ -36,57 +33,46 @@ public class GrassField implements WorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !animals.containsKey(position);
-    }
-
-    @Override
-    public List<Animal> getAnimals() {
-        return List.copyOf(animals.values());
+    public Collection<WorldElement> getElements() {
+        List<WorldElement> elements = new ArrayList<>(super.getElements());
+        elements.addAll(trawki.values());
+        return elements;
     }
 
     @Override
     public boolean place(Animal animal) {
+        boolean placed = super.place(animal);
         Vector2d animalPosition = animal.getPosition();
-        if (canMoveTo(animalPosition)) {
-            animals.put(animalPosition, animal);
-            lowBoundary = animalPosition.lowerLeft(lowBoundary);
-            upBoundary = animalPosition.upperRight(upBoundary);
-            return true;
-        }
-        return false;
+
+        /* moze byc poza if bo jesli nie mozna postawic zwierzatka to oznacza, ze jest tam juz inne zwierzatko wiec pozycja ta byla juz rozwazana wczesniej */
+        lowBoundary = animalPosition.lowerLeft(lowBoundary);
+        upBoundary = animalPosition.upperRight(upBoundary);
+
+        return placed;
     }
 
     @Override
     public void move(Animal animal, MoveDirection direction) {
-        Vector2d oldPosition = animal.getPosition();
-        animal.move(direction, this);
+        super.move(animal, direction);
         Vector2d newPosition = animal.getPosition();
 
-        if (!Objects.equals(oldPosition, newPosition)) {
-            animals.remove(oldPosition);
-            animals.put(newPosition, animal);
-
-            /* przy kazdym przesuwaniu sprawdzamy czy mapa sie nie zwieksza */
-            lowBoundary = newPosition.lowerLeft(lowBoundary);
-            upBoundary = newPosition.upperRight(upBoundary);
-        }
-
+        /* tutaj ta sama logika, wiec poza if */
+        lowBoundary = newPosition.lowerLeft(lowBoundary);
+        upBoundary = newPosition.upperRight(upBoundary);
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return trawki.containsKey(position) || animals.containsKey(position);
+        return super.isOccupied(position) || trawki.containsKey(position);
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        if (animals.containsKey(position)) {
-            return animals.get(position);
-        } else if (trawki.containsKey(position)) {
-            return trawki.get(position);
+        WorldElement element = super.objectAt(position);
+        if (element != null) {
+            return element;
         }
-        return null;
+        return trawki.get(position);
     }
 
     @Override

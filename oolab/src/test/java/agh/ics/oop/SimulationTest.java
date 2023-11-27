@@ -23,8 +23,8 @@ class SimulationTest {
         simulation.run();
 
         // then
-        Vector2d finalPosition1 = ((RectangularMap) map).getAnimals().get(0).getPosition();
-        Vector2d finalPosition2 = ((RectangularMap) map).getAnimals().get(1).getPosition();
+        Vector2d finalPosition1 = map.getAnimals().get(0).getPosition();
+        Vector2d finalPosition2 = map.getAnimals().get(1).getPosition();
 
         assertTrue(finalPosition1.follows(new Vector2d(0, 0)) && finalPosition1.precedes(new Vector2d(4, 4)));
         assertTrue(finalPosition2.follows(new Vector2d(0, 0)) && finalPosition2.precedes(new Vector2d(4, 4)));
@@ -41,7 +41,7 @@ class SimulationTest {
         //when
         Simulation simulation = new Simulation(directions, map);
         simulation.run();
-        List<MapDirection> finalOrientations = Arrays.asList(((RectangularMap) map).getAnimals().get(0).getOrientation(), ((RectangularMap) map).getAnimals().get(1).getOrientation());
+        List<MapDirection> finalOrientations = Arrays.asList(map.getAnimals().get(0).getOrientation(), map.getAnimals().get(1).getOrientation());
         List<MapDirection> correctOrientations = Arrays.asList(MapDirection.NORTH, MapDirection.SOUTH);
 
         // then
@@ -57,7 +57,7 @@ class SimulationTest {
 
         //when
         Simulation simulation = new Simulation(directions, map);
-        List<Animal> animals = ((RectangularMap) map).getAnimals();
+        List<Animal> animals = map.getAnimals();
 
         // then
         //sprawdzam dla jednego zwierzatka

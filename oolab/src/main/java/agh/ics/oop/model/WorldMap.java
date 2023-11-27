@@ -1,5 +1,6 @@
 package agh.ics.oop.model;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,6 +12,8 @@ import java.util.List;
 public interface WorldMap extends MoveValidator {
 
     List<Animal> getAnimals();
+
+    Collection<WorldElement> getElements();
 
     /**
      * Place an animal on the map.

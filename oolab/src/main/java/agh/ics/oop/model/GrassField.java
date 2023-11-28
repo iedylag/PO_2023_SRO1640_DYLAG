@@ -6,36 +6,31 @@ import java.util.*;
 
 
 public class GrassField extends AbstractWorldMap {
-    private final Map<Vector2d, Grass> trawki = new HashMap<>();
+    private final Map<Vector2d, Grass> grasses = new HashMap<>();
     private Vector2d lowBoundary = LOWER_LEFT;
     private Vector2d upBoundary;
 
-    public GrassField(int countTrawki) {
-        Vector2d grassBoundary = new Vector2d((int) Math.sqrt(countTrawki * 10), (int) Math.sqrt(countTrawki * 10));
+    public GrassField(int grassCount) {
+        Vector2d grassBoundary = new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10));
+        int maxWidth = grassBoundary.getX() + 1; //zakladam, ze np. przy n=10, obszar jest od (0,0) do (10,10) wlacznie
+        int maxHeight = grassBoundary.getY() + 1;
 
-        int positionsCount = 0;
-        while (positionsCount < countTrawki) {
-            int X = (int) (Math.random() * (grassBoundary.getX() + 1)); //zakladam, ze np. przy n=10, obszar jest od (0,0) do (10,10) wlacznie
-            int Y = (int) (Math.random() * (grassBoundary.getY() + 1));
-            Vector2d grassField = new Vector2d(X, Y);
-            if (!trawki.containsKey(grassField)) {
-                trawki.put(grassField, new Grass(grassField));
-                positionsCount++;
-            }
+        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxWidth, maxHeight, grassCount);
+        for(Vector2d grassPosition : randomPositionGenerator) {
+            grasses.put(grassPosition, new Grass(grassPosition));
         }
+
         upBoundary = grassBoundary;
-        /* uprosciłam, bo wydaje mi sie, ze malo wydajne bylo porownywanie po kazdym dodaniu trawy,
-        szczegolnie, ze sama sobie wczesniej wymyslilam, ze mapa nie ma byc wieksza niz pole trawy */
     }
 
     public Map<Vector2d, Grass> getTrawki() {
-        return trawki;
+        return grasses;
     }
 
     @Override
     public Collection<WorldElement> getElements() {
         List<WorldElement> elements = new ArrayList<>(super.getElements());
-        elements.addAll(trawki.values());
+        elements.addAll(grasses.values());
         return elements;
     }
 
@@ -60,7 +55,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return super.isOccupied(position) || trawki.containsKey(position);
+        return super.isOccupied(position) || grasses.containsKey(position);
     }
 
     @Override
@@ -69,7 +64,7 @@ public class GrassField extends AbstractWorldMap {
         if (element != null) {
             return element;
         }
-        return trawki.get(position);
+        return grasses.get(position);
     }
 
     @Override

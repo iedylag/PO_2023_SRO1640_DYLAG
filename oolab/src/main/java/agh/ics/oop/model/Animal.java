@@ -1,6 +1,5 @@
 package agh.ics.oop.model;
 
-
 import java.util.Objects;
 
 public class Animal implements WorldElement {
@@ -17,10 +16,12 @@ public class Animal implements WorldElement {
     public Animal(Vector2d position) {
         this.position = position;
     }
+
     @Override
     public boolean isAt(Vector2d position) {
         return Objects.equals(this.position, position);
     }
+
     @Override
     public Vector2d getPosition() {
         return position;

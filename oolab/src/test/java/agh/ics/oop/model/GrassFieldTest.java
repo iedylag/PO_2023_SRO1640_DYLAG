@@ -2,7 +2,9 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,11 +16,11 @@ class GrassFieldTest {
         GrassField map = new GrassField(10);
 
         //when - then
-        assertEquals(10, map.getTrawki().size());
+        assertEquals(10, map.getGrassesSize());
     }
 
     @Test
-    void testPlaceAnimalOnOccupiedPosition() {
+    void placeAnimalOnOccupiedPosition() {
         //given
         WorldMap map = new GrassField(5);
         Animal sheep = new Animal();
@@ -32,7 +34,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void testMoveToOccupiedPosition() {
+    void moveToOccupiedPosition() {
         //given
         WorldMap map = new GrassField(10);
         Animal sheep = new Animal();
@@ -49,7 +51,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void testReturnsObjectAt() {
+    void returnsObjectAt() {
         //given
         WorldMap map = new GrassField(10);
         Animal sheep = new Animal(new Vector2d(3, 4));
@@ -62,7 +64,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void testGrassFieldReturnsCorrectNumberOfElements() {
+    void grassFieldReturnsCorrectNumberOfElements() {
         //given
         WorldMap map = new GrassField(5);
         Animal sheep = new Animal();

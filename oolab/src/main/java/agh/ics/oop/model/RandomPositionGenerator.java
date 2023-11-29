@@ -1,6 +1,9 @@
 package agh.ics.oop.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class RandomPositionGenerator implements Iterable<Vector2d> {
     private List<Vector2d> possibleGrassFieldsPositions = new ArrayList<>();

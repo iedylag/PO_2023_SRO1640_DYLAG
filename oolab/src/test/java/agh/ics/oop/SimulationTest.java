@@ -1,6 +1,11 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.*;
+import agh.ics.oop.model.Animal;
+import agh.ics.oop.model.MapDirection;
+import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.RectangularMap;
+import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.WorldMap;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -11,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SimulationTest {
 
     @Test
-    void animalsDontGoOffTheMap() {
+    void animalsStayTheMap() {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
         WorldMap map = new RectangularMap(5, 5);
@@ -31,7 +36,7 @@ class SimulationTest {
     }
 
     @Test
-    void animalsCorrectOrientation() {
+    void animalHasCorrectOrientation() {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
         WorldMap map = new RectangularMap(5, 5);
@@ -49,14 +54,13 @@ class SimulationTest {
     }
 
     @Test
-    void testMovingToCorrectPositions() {
+    void animalMovesToCorrectPositions() {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "r", "f", "r", "f", "f", "f", "f"});
         WorldMap map = new RectangularMap(5, 5);
         map.place(new Animal());
 
         //when
-        Simulation simulation = new Simulation(directions, map);
         List<Animal> animals = map.getAnimals();
 
         // then
@@ -72,18 +76,18 @@ class SimulationTest {
 
         for (int i = 0; i < directions.size(); i++) {
             animals.get(0).move(directions.get(i), map);
-            assertTrue(animals.get(0).getPosition().equals(correctPositions.get(i))); //czy przemieszcza się na właściwe pozycje
+            assertEquals(animals.get(0).getPosition(), correctPositions.get(i)); //czy przemieszcza się na właściwe pozycje
             assertEquals(correctInterpretations.get(i), directions.get(i)); //czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
         }
 
     }
 
     @Test
-    void testDoNotGoOnOccupiedPosition(){
+    void animalDoesNotMoveToOccupiedPosition() {
         //given
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
-        Animal sloth = new Animal(new Vector2d(2,3));
+        Animal sloth = new Animal(new Vector2d(2, 3));
         map.place(sheep);
         map.place(sloth);
 
@@ -92,7 +96,7 @@ class SimulationTest {
         map.move(sloth, MoveDirection.BACKWARD);
 
         // then
-        assertEquals(new Vector2d(2,2), sheep.getPosition());
-        assertEquals(new Vector2d(2,3), sloth.getPosition());
+        assertEquals(new Vector2d(2, 2), sheep.getPosition());
+        assertEquals(new Vector2d(2, 3), sloth.getPosition());
     }
 }

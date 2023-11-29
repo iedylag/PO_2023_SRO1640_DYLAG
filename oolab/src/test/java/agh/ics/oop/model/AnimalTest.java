@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnimalTest {
 
     @Test
-    void testReturnCorrectString() {
+    void returnCorrectString() {
         //given
         Vector2d position1 = new Vector2d(1, 2);
         Animal sloth = new Animal(position1);
@@ -19,7 +19,7 @@ class AnimalTest {
     }
 
     @Test
-    void testAnimalIsAtGivenPosition() {
+    void animalIsAtGivenPosition() {
         //given
         Vector2d position1 = new Vector2d(1, 2);
         Vector2d position2 = new Vector2d(1, 2);
@@ -32,7 +32,7 @@ class AnimalTest {
     }
 
     @Test
-    void testMoveToCorrectPosition() {
+    void moveToCorrectPosition() {
         //given
         MoveValidator validator = new MoveValidator() { //dummy object
             @Override

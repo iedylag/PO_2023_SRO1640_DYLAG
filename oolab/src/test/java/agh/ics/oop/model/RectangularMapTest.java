@@ -2,7 +2,6 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RectangularMapTest {
 
     @Test
-    void testPlaceAnimalOnOccupiedPosition() {
+    void placeAnimalOnOccupiedPosition() {
         //given
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
@@ -23,7 +22,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void testMoveToOccupiedPosition() {
+    void moveToOccupiedPosition() {
         //given
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
@@ -40,7 +39,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void testReturnObjectAt() {
+    void returnObjectAt() {
         //given
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal(new Vector2d(3, 4));
@@ -54,7 +53,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void testGetElements() {
+    void elementsAreCorrectlyAdded() {
         //given
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
@@ -64,7 +63,7 @@ class RectangularMapTest {
         map.place(sheep);
         map.place(sloth);
         Collection<WorldElement> elements = map.getElements();
-        List<Animal> elementsExpected = Arrays.asList(sheep, sloth);
+        List<Animal> elementsExpected = List.of(sheep, sloth);
 
         //then
         assertEquals(2, elements.size());

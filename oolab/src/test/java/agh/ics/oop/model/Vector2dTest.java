@@ -100,7 +100,7 @@ class Vector2dTest {
     }
 
     @Test
-    void VectorsCanBeAdded() {
+    void vectorsCanBeAdded() {
         //given
         Vector2d vector1 = new Vector2d(2, 5);
         Vector2d vector2 = new Vector2d(3, 4);
@@ -114,7 +114,7 @@ class Vector2dTest {
     }
 
     @Test
-    void VectorsCanBeSubtract() {
+    void vectorsCanBeSubtract() {
         //given
         Vector2d vector1 = new Vector2d(2, 5);
         Vector2d vector2 = new Vector2d(3, 4);
@@ -128,7 +128,7 @@ class Vector2dTest {
     }
 
     @Test
-    void OppositeWorksCorrectly() {
+    void oppositeWorksCorrectly() {
         //given
         Vector2d vector1 = new Vector2d(2, -5);
         Vector2d vector2 = new Vector2d(0, 0);

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnimalTest {
 
     @Test
-    void testToString() {
+    void returnCorrectString() {
         //given
         Vector2d position1 = new Vector2d(1, 2);
         Animal sloth = new Animal(position1);
@@ -19,7 +19,7 @@ class AnimalTest {
     }
 
     @Test
-    void isAt() {
+    void animalIsAtGivenPosition() {
         //given
         Vector2d position1 = new Vector2d(1, 2);
         Vector2d position2 = new Vector2d(1, 2);
@@ -30,21 +30,25 @@ class AnimalTest {
         assertTrue(sloth.isAt(position2)); //same coordinates
         assertFalse(sloth.isAt(position3));
     }
-/* //potem naprawię
+
     @Test
-    void testMove() {
+    void moveToCorrectPosition() {
         //given
-        Vector2d position1 = new Vector2d(0, 0);
-        Animal sloth = new Animal(position1);
-        Vector2d position2 = new Vector2d(2, 2);
-        Animal sheep = new Animal(position2);
-        Vector2d position3 = new Vector2d(2, 2);
-        Animal beardedDragon = new Animal(position2);
+        MoveValidator validator = new MoveValidator() { //dummy object
+            @Override
+            public boolean canMoveTo(Vector2d position) {
+                return position.follows(new Vector2d(0,0)) && position.precedes(new Vector2d(4,4));
+            }
+        };
+
+        Animal sloth = new Animal(new Vector2d(0, 0));
+        Animal sheep = new Animal();
+        Animal beardedDragon = new Animal(new Vector2d(2,3));
 
         //when
-        sloth.move(MoveDirection.BACKWARD, (MoveValidator) this);
-        sheep.move(MoveDirection.RIGHT, (MoveValidator) this); //stay in this position, change direction to EAST
-        beardedDragon.move(MoveDirection.FORWARD, (MoveValidator) this);
+        sloth.move(MoveDirection.BACKWARD, validator); // stay on the map
+        sheep.move(MoveDirection.RIGHT, validator); //stay in this position, change direction to EAST
+        beardedDragon.move(MoveDirection.FORWARD, validator);
 
         // then
         assertEquals(0, sloth.getPosition().getX());
@@ -52,8 +56,8 @@ class AnimalTest {
         assertEquals(2, sheep.getPosition().getX());
         assertEquals(2, sheep.getPosition().getY());
         assertEquals(2, beardedDragon.getPosition().getX());
-        assertEquals(3, beardedDragon.getPosition().getY());
+        assertEquals(4, beardedDragon.getPosition().getY());
         assertEquals(MapDirection.NORTH, sloth.getOrientation());
         assertEquals(MapDirection.EAST, sheep.getOrientation());
-    }*/
+    }
 }

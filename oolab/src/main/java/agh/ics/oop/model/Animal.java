@@ -1,7 +1,8 @@
 package agh.ics.oop.model;
 
+import java.util.Objects;
 
-public class Animal {
+public class Animal implements WorldElement {
     private static final MapDirection DEFAULT_MAP_DIRECTION = MapDirection.NORTH;
     private MapDirection orientation = DEFAULT_MAP_DIRECTION;
     private Vector2d position;
@@ -17,19 +18,11 @@ public class Animal {
     }
 
     @Override
-    public String toString() {
-        return switch (orientation) {
-            case NORTH -> "N";
-            case EAST -> "E";
-            case SOUTH -> "S";
-            case WEST -> "W";
-        };
-    }
-
     public boolean isAt(Vector2d position) {
-        return position.equals(this.position); //Objects.equals(this.position , position);
+        return Objects.equals(this.position, position);
     }
 
+    @Override
     public Vector2d getPosition() {
         return position;
     }
@@ -55,5 +48,15 @@ public class Animal {
             position = newPosition;
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return switch (orientation) {
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
+        };
     }
 }

@@ -1,5 +1,6 @@
 package agh.ics.oop.model;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,9 +11,9 @@ import java.util.List;
  */
 public interface WorldMap extends MoveValidator {
 
-    default List<Animal> getAnimals() {
-        return null;
-    }
+    List<Animal> getAnimals();
+
+    Collection<WorldElement> getElements();
 
     /**
      * Place an animal on the map.
@@ -36,7 +37,9 @@ public interface WorldMap extends MoveValidator {
      * @param position Position to check.
      * @return True if the position is occupied.
      */
-    boolean isOccupied(Vector2d position);
+    default boolean isOccupied(Vector2d position) {
+        return objectAt(position) != null;
+    }
 
     /**
      * Return an animal at a given position.
@@ -44,5 +47,5 @@ public interface WorldMap extends MoveValidator {
      * @param position The position of the animal.
      * @return animal or null if the position is not occupied.
      */
-    Animal objectAt(Vector2d position);
+    WorldElement objectAt(Vector2d position);
 }

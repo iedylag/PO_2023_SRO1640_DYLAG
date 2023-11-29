@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.MapVisualizer;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,8 +16,8 @@ public class GrassField extends AbstractWorldMap {
 
     private void grassFieldGenerate(int grassCount) {
         Vector2d grassBoundary = new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10));
-        int maxWidth = grassBoundary.getX() + 1; //zakladam, ze np. przy n=10, obszar jest od (0,0) do (10,10) wlacznie
-        int maxHeight = grassBoundary.getY() + 1;
+        int maxWidth = grassBoundary.getX();
+        int maxHeight = grassBoundary.getY();
 
         RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxWidth, maxHeight, grassCount);
         for (Vector2d grassPosition : randomPositionGenerator) {
@@ -27,8 +25,17 @@ public class GrassField extends AbstractWorldMap {
         }
     }
 
-    public int getGrassesSize() {
-        return grasses.size();
+    @Override
+    public Boundary getCurrentBounds() {
+        Vector2d lowLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        Vector2d upRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+
+        for (WorldElement element : getElements()) {
+            upRightCorner = element.getPosition().upperRight(upRightCorner);
+            lowLeftCorner = element.getPosition().lowerLeft(lowLeftCorner);
+        }
+
+        return new Boundary(lowLeftCorner, upRightCorner);
     }
 
     @Override
@@ -38,26 +45,8 @@ public class GrassField extends AbstractWorldMap {
         return elements;
     }
 
-    private Vector2d lowLeftCornerCalculate() {
-        Vector2d lowLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        for (Vector2d elementPosition : grasses.keySet()) {
-            lowLeftCorner = elementPosition.lowerLeft(lowLeftCorner);
-        }
-        for (Vector2d elementPosition : animals.keySet()) {
-            lowLeftCorner = elementPosition.lowerLeft(lowLeftCorner);
-        }
-        return lowLeftCorner;
-    }
-
-    private Vector2d upRightCornerCalculate() {
-        Vector2d upRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Vector2d elementPosition : grasses.keySet()) {
-            upRightCorner = elementPosition.upperRight(upRightCorner);
-        }
-        for (Vector2d elementPosition : animals.keySet()) {
-            upRightCorner = elementPosition.upperRight(upRightCorner);
-        }
-        return upRightCorner;
+    public int getGrassesSize() {
+        return grasses.size();
     }
 
     @Override
@@ -67,11 +56,5 @@ public class GrassField extends AbstractWorldMap {
             return element;
         }
         return grasses.get(position);
-    }
-
-    @Override
-    public String toString() {
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(lowLeftCornerCalculate(), upRightCornerCalculate());
     }
 }

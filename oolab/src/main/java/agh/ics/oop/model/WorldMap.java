@@ -15,6 +15,7 @@ public interface WorldMap extends MoveValidator {
 
     Collection<WorldElement> getElements();
 
+   Boundary getCurrentBounds();
     /**
      * Place an animal on the map.
      *

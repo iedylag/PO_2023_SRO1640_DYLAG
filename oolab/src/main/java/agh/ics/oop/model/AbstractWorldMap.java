@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.MapVisualizer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,7 +11,7 @@ import java.util.Objects;
 
 public abstract class AbstractWorldMap implements WorldMap {
     public static final Vector2d LOWER_LEFT = new Vector2d(0, 0);
-    protected final Map<Vector2d, Animal> animals = new HashMap<>();
+    private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     @Override
     public List<Animal> getAnimals() {
@@ -51,5 +53,12 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public WorldElement objectAt(Vector2d position) {
         return animals.get(position);
+    }
+
+    @Override
+    public String toString() {
+        MapVisualizer visualizer = new MapVisualizer(this);
+        Boundary boundary = getCurrentBounds();
+        return visualizer.draw(boundary.lowLeftCorner(), boundary.upRightCorner());
     }
 }

@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.MapVisualizer;
-
 public class RectangularMap extends AbstractWorldMap {
     private final Vector2d upperRight;
 
@@ -15,8 +13,7 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public String toString() {
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(LOWER_LEFT, upperRight);
+    public Boundary getCurrentBounds() {
+        return new Boundary(LOWER_LEFT, upperRight);
     }
 }

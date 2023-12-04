@@ -27,8 +27,8 @@ class GrassFieldTest {
         Animal sloth = new Animal(new Vector2d(2, 2));
 
         //when - then
-        assertTrue(map.place(sheep));
-        assertFalse(map.place(sloth));
+        assertDoesNotThrow(() -> map.place(sheep));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(sloth));
         assertEquals(sheep, map.objectAt(new Vector2d(2, 2)));
         assertNotEquals('*', map.objectAt(new Vector2d(2, 2)));
     }
@@ -41,8 +41,12 @@ class GrassFieldTest {
         Animal sloth = new Animal(new Vector2d(2, 3));
 
         //when
-        map.place(sheep);
-        map.place(sloth);
+        try {
+            map.place(sheep);
+            map.place(sloth);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         map.move(sloth, MoveDirection.BACKWARD);
 
         //then
@@ -56,10 +60,8 @@ class GrassFieldTest {
         WorldMap map = new GrassField(10);
         Animal sheep = new Animal(new Vector2d(3, 4));
 
-        //when
-        map.place(sheep);
-
-        //then
+        //when - then
+        assertDoesNotThrow(() -> map.place(sheep));
         assertEquals(sheep, map.objectAt(new Vector2d(3, 4)));
     }
 
@@ -71,17 +73,20 @@ class GrassFieldTest {
         Animal sloth = new Animal(new Vector2d(1, 1));
 
         //when
-        map.place(sloth);
-        map.place(sheep);
-        map.place(new Animal(new Vector2d(3, 3)));  //3
-        map.place(new Animal(new Vector2d(4, 4)));  //4
-        map.place(new Animal(new Vector2d(5, 5)));  //5
-        map.place(new Animal(new Vector2d(5, 1)));  //6
-        map.place(new Animal(new Vector2d(4, 2)));  //7
-        map.place(new Animal(new Vector2d(2, 1)));  //8
-        map.place(new Animal(new Vector2d(2, 3)));  //9
-        map.place(new Animal(new Vector2d(4, 3)));  //10
-
+        try {
+            map.place(sloth);
+            map.place(sheep);
+            map.place(new Animal(new Vector2d(3, 3)));  //3
+            map.place(new Animal(new Vector2d(4, 4)));  //4
+            map.place(new Animal(new Vector2d(5, 5)));  //5
+            map.place(new Animal(new Vector2d(5, 1)));  //6
+            map.place(new Animal(new Vector2d(4, 2)));  //7
+            map.place(new Animal(new Vector2d(2, 1)));  //8
+            map.place(new Animal(new Vector2d(2, 3)));  //9
+            map.place(new Animal(new Vector2d(4, 3)));  //10
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         Collection<WorldElement> elements = map.getElements();
         List<WorldElement> elementsExpected = Arrays.asList(sheep, sloth);
 

@@ -29,13 +29,13 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws PositionAlreadyOccupiedException {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animalPosition)) {
             animals.put(animalPosition, animal);
             return true;
         }
-        return false;
+        throw new PositionAlreadyOccupiedException(animalPosition);
     }
 
     @Override

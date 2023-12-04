@@ -3,6 +3,7 @@ package agh.ics.oop;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.PositionAlreadyOccupiedException;
 import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
@@ -20,8 +21,13 @@ class SimulationTest {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
         WorldMap map = new RectangularMap(5, 5);
-        map.place(new Animal());
-        map.place(new Animal(new Vector2d(3, 4)));
+
+        try {
+            map.place(new Animal());
+            map.place(new Animal(new Vector2d(3, 4)));
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
 
         //when
         Simulation simulation = new Simulation(directions, map);
@@ -40,9 +46,13 @@ class SimulationTest {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
         WorldMap map = new RectangularMap(5, 5);
-        map.place(new Animal());
-        map.place(new Animal(new Vector2d(3, 4)));
 
+        try {
+            map.place(new Animal());
+            map.place(new Animal(new Vector2d(3, 4)));
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         //when
         Simulation simulation = new Simulation(directions, map);
         simulation.run();
@@ -58,8 +68,11 @@ class SimulationTest {
         //given
         List<MoveDirection> directions = OptionsParser.parse(new String[]{"f", "r", "f", "r", "f", "f", "f", "f"});
         WorldMap map = new RectangularMap(5, 5);
-        map.place(new Animal());
-
+        try {
+            map.place(new Animal());
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         //when
         List<Animal> animals = map.getAnimals();
 
@@ -88,8 +101,13 @@ class SimulationTest {
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
         Animal sloth = new Animal(new Vector2d(2, 3));
-        map.place(sheep);
-        map.place(sloth);
+
+        try {
+            map.place(sheep);
+            map.place(sloth);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
 
         //when
         map.move(sheep, MoveDirection.FORWARD);

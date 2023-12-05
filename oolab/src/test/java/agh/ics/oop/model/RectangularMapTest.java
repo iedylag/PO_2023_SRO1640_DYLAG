@@ -61,7 +61,7 @@ class RectangularMapTest {
             map.place(sheep);
             map.place(sloth);
         } catch (PositionAlreadyOccupiedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         Collection<WorldElement> elements = map.getElements();
         List<Animal> elementsExpected = List.of(sheep, sloth);

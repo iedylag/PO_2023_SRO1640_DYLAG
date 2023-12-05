@@ -21,7 +21,6 @@ public class Simulation {
         for (int i = 0; i < directions.size(); i++) {
             Animal animal = animals.get(i % animals.size());
             map.move(animal, directions.get(i));
-            System.out.println(map);
         }
     }
 }

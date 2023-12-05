@@ -5,13 +5,33 @@ import agh.ics.oop.MapVisualizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Observer;
+import java.util.Set;
 
 public abstract class AbstractWorldMap implements WorldMap {
-    public static final Vector2d LOWER_LEFT = new Vector2d(0, 0);
+
     private final Map<Vector2d, Animal> animals = new HashMap<>();
+    private final Set<MapChangeListener> observers = new HashSet<>(); //lista obserwatorów
+
+    @Override
+    public void subscribe(MapChangeListener observer) {  //rejestrowanie obserwatora
+        observers.add(observer);
+    }
+
+    @Override
+    public void unsubscribe(MapChangeListener observer) {  //wyrejestrowanie obserwatora
+        observers.remove(observer);
+    }
+
+    private void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
+    }
 
     @Override
     public List<Animal> getAnimals() {
@@ -33,6 +53,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animalPosition)) {
             animals.put(animalPosition, animal);
+            mapChanged("Animal placed at " + animalPosition + " and is heading " + animal.getOrientation());
             return true;
         }
         throw new PositionAlreadyOccupiedException(animalPosition);
@@ -47,6 +68,9 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (!Objects.equals(oldPosition, newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
+            mapChanged("Animal moved to " + newPosition + " and is heading " + animal.getOrientation());
+        } else {
+            mapChanged("Animal remains in position, but heads " + animal.getOrientation());
         }
     }
 

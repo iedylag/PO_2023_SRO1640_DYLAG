@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 public class RectangularMap extends AbstractWorldMap {
+    public static final Vector2d LOWER_LEFT = new Vector2d(0, 0);
     private final Vector2d upperRight;
 
     public RectangularMap(int height, int width) {

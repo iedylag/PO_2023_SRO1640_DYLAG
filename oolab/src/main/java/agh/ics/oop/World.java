@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.Animal;
+import agh.ics.oop.model.ConsoleMapDisplay;
 import agh.ics.oop.model.GrassField;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.PositionAlreadyOccupiedException;
@@ -13,6 +14,8 @@ public class World {
     public static void main(String[] args) {
         System.out.println("Start");
         WorldMap map = new GrassField(10);
+        ConsoleMapDisplay display = new ConsoleMapDisplay();
+        map.subscribe(display);
 
         try {
             map.place(new Animal());

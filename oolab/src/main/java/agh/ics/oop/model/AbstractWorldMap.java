@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Observer;
 import java.util.Set;
 
 public abstract class AbstractWorldMap implements WorldMap {
@@ -28,9 +27,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     private void mapChanged(String message) {
-        for (MapChangeListener observer : observers) {
-            observer.mapChanged(this, message);
-        }
+        observers.forEach(observer -> observer.mapChanged(this, message));
     }
 
     @Override
@@ -49,14 +46,14 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) throws PositionAlreadyOccupiedException {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animalPosition)) {
             animals.put(animalPosition, animal);
             mapChanged("Animal placed at " + animalPosition + " and is heading " + animal.getOrientation());
-            return true;
+        } else {
+            throw new PositionAlreadyOccupiedException(animalPosition);
         }
-        throw new PositionAlreadyOccupiedException(animalPosition);
     }
 
     @Override

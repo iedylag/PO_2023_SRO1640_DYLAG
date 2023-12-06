@@ -1,15 +1,34 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.MapVisualizer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class AbstractWorldMap implements WorldMap {
-    public static final Vector2d LOWER_LEFT = new Vector2d(0, 0);
-    protected final Map<Vector2d, Animal> animals = new HashMap<>();
+
+    private final Map<Vector2d, Animal> animals = new HashMap<>();
+    private final Set<MapChangeListener> observers = new HashSet<>(); //lista obserwatorów
+
+    @Override
+    public void subscribe(MapChangeListener observer) {  //rejestrowanie obserwatora
+        observers.add(observer);
+    }
+
+    @Override
+    public void unsubscribe(MapChangeListener observer) {  //wyrejestrowanie obserwatora
+        observers.remove(observer);
+    }
+
+    private void mapChanged(String message) {
+        observers.forEach(observer -> observer.mapChanged(this, message));
+    }
 
     @Override
     public List<Animal> getAnimals() {
@@ -27,13 +46,14 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animalPosition)) {
             animals.put(animalPosition, animal);
-            return true;
+            mapChanged("Animal placed at " + animalPosition + " and is heading " + animal.getOrientation());
+        } else {
+            throw new PositionAlreadyOccupiedException(animalPosition);
         }
-        return false;
     }
 
     @Override
@@ -45,11 +65,21 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (!Objects.equals(oldPosition, newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
+            mapChanged("Animal moved to " + newPosition + " and is heading " + animal.getOrientation());
+        } else {
+            mapChanged("Animal remains in position, but heads " + animal.getOrientation());
         }
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
         return animals.get(position);
+    }
+
+    @Override
+    public String toString() {
+        MapVisualizer visualizer = new MapVisualizer(this);
+        Boundary boundary = getCurrentBounds();
+        return visualizer.draw(boundary.lowLeftCorner(), boundary.upRightCorner());
     }
 }

@@ -10,19 +10,17 @@ public class OptionsParser {
         List<MoveDirection> directions = new ArrayList<>();
 
         for (String arg : args) {
-            if (arg != null) {
-                MoveDirection direction = switch (arg) {
-                    case "f" -> MoveDirection.FORWARD;
-                    case "b" -> MoveDirection.BACKWARD;
-                    case "l" -> MoveDirection.LEFT;
-                    case "r" -> MoveDirection.RIGHT;
-                    default -> null;
-                };
-
-                if (direction != null) {
-                    directions.add(direction);
-                }
+            if (arg == null) {
+                throw new IllegalArgumentException(arg + " is not legal move specification");
             }
+            MoveDirection direction = switch (arg) {
+                case "f" -> MoveDirection.FORWARD;
+                case "b" -> MoveDirection.BACKWARD;
+                case "l" -> MoveDirection.LEFT;
+                case "r" -> MoveDirection.RIGHT;
+                default -> throw new IllegalArgumentException(arg + " is not legal move specification"); //unchecked
+            };
+            directions.add(direction);
         }
         return directions;
     }

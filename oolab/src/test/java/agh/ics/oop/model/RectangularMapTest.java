@@ -15,10 +15,9 @@ class RectangularMapTest {
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal();
         Animal sloth = new Animal(new Vector2d(2, 2));
-
-        //when - then
-        assertTrue(map.place(sheep));
-        assertFalse(map.place(sloth));
+        //then
+        assertDoesNotThrow(() -> map.place(sheep));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(sloth));
     }
 
     @Test
@@ -29,8 +28,8 @@ class RectangularMapTest {
         Animal sloth = new Animal(new Vector2d(2, 3));
 
         //when
-        map.place(sheep);
-        map.place(sloth);
+        assertDoesNotThrow(() -> map.place(sheep));
+        assertDoesNotThrow(() -> map.place(sloth));
         map.move(sloth, MoveDirection.BACKWARD);
 
         //then
@@ -44,10 +43,8 @@ class RectangularMapTest {
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal(new Vector2d(3, 4));
 
-        //when
-        map.place(sheep);
-
-        //then
+        //when - then
+        assertDoesNotThrow(() -> map.place(sheep));
         assertEquals(sheep, map.objectAt(new Vector2d(3, 4)));
         assertNull(map.objectAt(new Vector2d(2, 2)));
     }
@@ -60,8 +57,12 @@ class RectangularMapTest {
         Animal sloth = new Animal(new Vector2d(2, 3));
 
         //when
-        map.place(sheep);
-        map.place(sloth);
+        try {
+            map.place(sheep);
+            map.place(sloth);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         Collection<WorldElement> elements = map.getElements();
         List<Animal> elementsExpected = List.of(sheep, sloth);
 

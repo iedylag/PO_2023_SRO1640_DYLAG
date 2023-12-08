@@ -13,7 +13,7 @@ public class World {
     public static void main(String[] args) {
         System.out.println("Start");
         WorldMap grassField = new GrassField(10);
-        WorldMap rectangularMap = new RectangularMap(10,10);
+        WorldMap rectangularMap = new RectangularMap(10, 10);
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
         ConsoleMapDisplay display = new ConsoleMapDisplay();
         grassField.subscribe(display);
@@ -21,10 +21,12 @@ public class World {
 
         try {
             List<MoveDirection> directions = OptionsParser.parse(args);
+
             Simulation simulation1 = new Simulation(directions, positions, grassField);
             Simulation simulation2 = new Simulation(directions, positions, rectangularMap);
             SimulationEngine engine = new SimulationEngine(List.of(simulation1, simulation2));
             engine.runAsync();
+            engine.awaitSimulationsEnd();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

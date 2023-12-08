@@ -20,6 +20,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     public UUID getId() {
         return mapId;
     }
+
     @Override
     public void subscribe(MapChangeListener observer) {  //rejestrowanie obserwatora
         observers.add(observer);

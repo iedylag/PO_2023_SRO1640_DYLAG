@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class ConsoleMapDisplay implements MapChangeListener {
 
     private int updateCount = 0;

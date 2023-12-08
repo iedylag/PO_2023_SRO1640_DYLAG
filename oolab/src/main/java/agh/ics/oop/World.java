@@ -3,7 +3,6 @@ package agh.ics.oop;
 import agh.ics.oop.model.ConsoleMapDisplay;
 import agh.ics.oop.model.GrassField;
 import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
 
@@ -28,9 +27,9 @@ public class World {
             }
 
             SimulationEngine engine = new SimulationEngine(simulations);
-            engine.runAsync();
+            engine.runAsyncInThreadPool();
             engine.awaitSimulationsEnd();
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
 

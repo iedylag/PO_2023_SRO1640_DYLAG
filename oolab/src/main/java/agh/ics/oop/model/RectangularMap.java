@@ -1,10 +1,13 @@
 package agh.ics.oop.model;
 
+import java.util.UUID;
+
 public class RectangularMap extends AbstractWorldMap {
     public static final Vector2d LOWER_LEFT = new Vector2d(0, 0);
     private final Vector2d upperRight;
 
     public RectangularMap(int height, int width) {
+        mapId = UUID.randomUUID();
         upperRight = new Vector2d(width - 1, height - 1);
     }
 

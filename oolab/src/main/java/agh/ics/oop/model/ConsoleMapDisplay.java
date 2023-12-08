@@ -4,24 +4,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConsoleMapDisplay implements MapChangeListener {
 
-    //private final AtomicInteger updateCount = new AtomicInteger(0);
     private int updateCount = 0;
 
     @Override
     public synchronized void mapChanged(WorldMap worldMap, String message) {
-        //update();
-        updateCount++;
+        update();
         System.out.println("Map ID:" + worldMap.getId());
         System.out.println("Update: " + message);
         System.out.println(worldMap);
-        System.out.printf("Number of updates so far: %d\n%n", updateCount);//howManyUpdates());
+        System.out.printf("Number of updates so far: %d\n%n", howManyUpdates());
     }
 
-    /*private void update(){
-        updateCount.incrementAndGet();
+    private void update() {
+        updateCount++;
     }
 
-    private int howManyUpdates(){
-        return updateCount.get();
-    }*/
+    private int howManyUpdates() {
+        return updateCount;
+    }
 }

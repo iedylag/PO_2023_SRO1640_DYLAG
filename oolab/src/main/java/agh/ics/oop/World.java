@@ -6,23 +6,33 @@ import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World {
     public static void main(String[] args) {
         System.out.println("Start");
-        WorldMap map = new GrassField(10);
+
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
         ConsoleMapDisplay display = new ConsoleMapDisplay();
-        map.subscribe(display);
 
         try {
             List<MoveDirection> directions = OptionsParser.parse(args);
-            Simulation simulation = new Simulation(directions, positions, map);
-            simulation.run();
-        } catch (IllegalArgumentException e) {
+            List<Simulation> simulations = new ArrayList<>();
+
+            for (int i = 0; i < 1000; i++) {
+                WorldMap grassField = new GrassField(10);
+                grassField.subscribe(display);
+                simulations.add(new Simulation(directions, positions, grassField));
+            }
+
+            SimulationEngine engine = new SimulationEngine(simulations);
+            engine.runAsyncInThreadPool();
+            engine.awaitSimulationsEnd();
+        } catch (IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
+
         System.out.println("Stop");
     }
 }

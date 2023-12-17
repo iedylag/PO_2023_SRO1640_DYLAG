@@ -1,9 +1,9 @@
 package agh.ics.oop;
 
+import agh.ics.oop.model.MoveDirection;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import agh.ics.oop.model.MoveDirection;
 
 public class OptionsParser {
     public static List<MoveDirection> parse(String[] args) {

@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
 
     public GrassField(int grassCount) {
+        mapId = UUID.randomUUID();
         grassFieldGenerate(grassCount);
     }
 

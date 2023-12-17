@@ -8,7 +8,7 @@ import agh.ics.oop.model.WorldMap;
 
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable {
     private final List<MoveDirection> directions;
     private final WorldMap map;
 
@@ -25,6 +25,7 @@ public class Simulation {
         }
     }
 
+    @Override
     public void run() {
         List<Animal> animals = map.getAnimals();
 

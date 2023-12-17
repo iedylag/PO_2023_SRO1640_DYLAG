@@ -1,7 +1,4 @@
-package agh.ics.oop;
-
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WorldMap;
+package agh.ics.oop.model;
 
 /**
  * The map visualizer converts the {@link WorldMap} map into a string

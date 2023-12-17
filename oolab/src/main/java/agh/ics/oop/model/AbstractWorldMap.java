@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.MapVisualizer;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,11 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 public abstract class AbstractWorldMap implements WorldMap {
 
     private final Map<Vector2d, Animal> animals = new HashMap<>();
     private final Set<MapChangeListener> observers = new HashSet<>(); //lista obserwatorów
+    protected UUID mapId;
+
+    @Override
+    public UUID getId() {
+        return mapId;
+    }
 
     @Override
     public void subscribe(MapChangeListener observer) {  //rejestrowanie obserwatora

@@ -7,11 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SimulationEngine {
-
     private final List<Simulation> simulations;
-
     private final List<Thread> simulationTreads = new ArrayList<>();
-
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     public SimulationEngine(List<Simulation> simulations) {

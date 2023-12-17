@@ -7,7 +7,6 @@ public class RectangularMap extends AbstractWorldMap {
     private final Vector2d upperRight;
 
     public RectangularMap(int height, int width) {
-        mapId = UUID.randomUUID();
         upperRight = new Vector2d(width - 1, height - 1);
     }
 

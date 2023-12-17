@@ -20,7 +20,7 @@ public class World {
             List<MoveDirection> directions = OptionsParser.parse(args);
             List<Simulation> simulations = new ArrayList<>();
 
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 2; i++) {
                 WorldMap grassField = new GrassField(10);
                 grassField.subscribe(display);
                 simulations.add(new Simulation(directions, positions, grassField));

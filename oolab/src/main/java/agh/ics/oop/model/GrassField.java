@@ -12,7 +12,6 @@ public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
 
     public GrassField(int grassCount) {
-        mapId = UUID.randomUUID();
         grassFieldGenerate(grassCount);
     }
 

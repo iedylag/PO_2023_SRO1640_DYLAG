@@ -1,19 +1,13 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.ConsoleMapDisplay;
-import agh.ics.oop.model.GrassField;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WorldMap;
 import agh.ics.oop.presenter.SimulationPresenter;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SimulationApp extends Application {  //dziedziczymy po Application
 
@@ -22,35 +16,15 @@ public class SimulationApp extends Application {  //dziedziczymy po Application
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
         BorderPane viewRoot = loader.load();            //ładujemy drzewo kontrolek z FXML (WIDOK)
-        SimulationPresenter presenter = loader.getController();  //zaciągamy prezentera z fxmla
+        SimulationPresenter presenter = loader.getController();
         configureStage(primaryStage, viewRoot);
 
         primaryStage.show();  // wyswietlamy okno
 
-        List<String> parameters = getParameters().getRaw();     //pobieramy przekazane argumenty
-
-        List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
-        ConsoleMapDisplay display = new ConsoleMapDisplay();
-
-
-        List<MoveDirection> directions = OptionsParser.parse(parameters.toArray(new String[0]));    //new String[0] tworzy tablicę stringów o rozmiarze 0
-        List<Simulation> simulations = new ArrayList<>();
-
-        for (int i = 0; i < 1; i++) {
-            WorldMap grassField = new GrassField(10);
-            presenter.setWorldMap(grassField);          //przekazujemy mapę do prezentera
-            grassField.subscribe(display);
-            grassField.subscribe(presenter);
-            simulations.add(new Simulation(directions, positions, grassField));
-        }
-
-        SimulationEngine engine = new SimulationEngine(simulations);
-        presenter.setEngine(engine);
-        /*engine.runAsyncInThreadPool();
-        engine.awaitSimulationsEnd();*/
-
-
-
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     private void configureStage(Stage primaryStage, BorderPane viewRoot) {

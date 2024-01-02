@@ -14,8 +14,6 @@ public class SimulationEngine {
     private final List<Thread> simulationTreads = new ArrayList<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-    // private final BooleanProperty stopped = new SimpleBooleanProperty(true);
-
     public SimulationEngine(List<Simulation> simulations) {
         this.simulations = simulations;
     }
@@ -49,33 +47,4 @@ public class SimulationEngine {
         }
     }
 
-   /* public boolean isStopped() {
-        return stopped.get();
-    }
-
-    public BooleanProperty stoppedProperty() {
-        return stopped;
-    }
-
-    public synchronized void stopSimulation() {
-        executorService.shutdown();
-        stopped.set(true);
-        try {
-            executorService.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            executorService.shutdownNow();
-        }
-    }
-*/
-    public synchronized void startSimulation() {
-        runAsyncInThreadPool();
-
-        /*if (!executorService.isShutdown()) {
-            executorService.shutdownNow();  // Zamyka poprzedni executor, jeśli jest aktywny
-        }
-        if (isStopped()) {
-            stopped.set(false);
-            notifyAll();
-        }*/
-    }
 }

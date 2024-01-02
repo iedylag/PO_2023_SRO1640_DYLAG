@@ -40,9 +40,6 @@ public class SimulationPresenter implements MapChangeListener {
     private TextField textField;
 
     @FXML
-    private Button startButton;
-
-    @FXML
     private Label infoLabel;
     private WorldMap worldMap;  //MODEL
 
@@ -121,7 +118,7 @@ public class SimulationPresenter implements MapChangeListener {
     }
 
     @Override
-    public synchronized void mapChanged(WorldMap worldMap, String message) {
+    public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(() -> {
             drawMap();
             moveDescription.setText(message);

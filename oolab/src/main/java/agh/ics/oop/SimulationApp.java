@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-import agh.ics.oop.presenter.SimulationPresenter;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ public class SimulationApp extends Application {  //dziedziczymy po Application
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
         BorderPane viewRoot = loader.load();            //ładujemy drzewo kontrolek z FXML (WIDOK)
-        SimulationPresenter presenter = loader.getController();
         configureStage(primaryStage, viewRoot);
 
         primaryStage.show();  // wyswietlamy okno

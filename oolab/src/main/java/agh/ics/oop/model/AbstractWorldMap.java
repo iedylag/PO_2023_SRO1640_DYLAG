@@ -14,7 +14,8 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     private final Map<Vector2d, Animal> animals = new HashMap<>();
     private final Set<MapChangeListener> observers = new HashSet<>(); //lista obserwatorów
-    protected UUID mapId;
+    private final UUID mapId = UUID.randomUUID();
+    ;
 
     @Override
     public UUID getId() {

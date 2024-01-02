@@ -1,5 +1,8 @@
 package agh.ics.oop;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -7,11 +10,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SimulationEngine {
-
     private final List<Simulation> simulations;
-
     private final List<Thread> simulationTreads = new ArrayList<>();
-
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     public SimulationEngine(List<Simulation> simulations) {
@@ -45,6 +45,6 @@ public class SimulationEngine {
         for (Simulation simulation : simulations) {
             executorService.submit(simulation);
         }
-
     }
+
 }

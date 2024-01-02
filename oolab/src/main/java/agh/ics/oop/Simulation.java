@@ -34,4 +34,5 @@ public class Simulation implements Runnable {
             map.move(animal, directions.get(i));
         }
     }
+
 }

@@ -25,29 +25,32 @@ public class SimulationApp extends Application {  //dziedziczymy po Application
         SimulationPresenter presenter = loader.getController();  //zaciągamy prezentera z fxmla
         configureStage(primaryStage, viewRoot);
 
+        primaryStage.show();  // wyswietlamy okno
+
         List<String> parameters = getParameters().getRaw();     //pobieramy przekazane argumenty
 
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
         ConsoleMapDisplay display = new ConsoleMapDisplay();
 
-        try {
-            List<MoveDirection> directions = OptionsParser.parse(parameters.toArray(new String[0]));    //new String[0] tworzy tablicę stringów o rozmiarze 0
-            List<Simulation> simulations = new ArrayList<>();
 
-            for (int i = 0; i < 2; i++) {
-                WorldMap grassField = new GrassField(10);
-                presenter.setWorldMap(grassField);          //przekazujemy mapę do prezentera
-                grassField.subscribe(display);
-                grassField.subscribe(presenter);
-                simulations.add(new Simulation(directions, positions, grassField));
-            }
+        List<MoveDirection> directions = OptionsParser.parse(parameters.toArray(new String[0]));    //new String[0] tworzy tablicę stringów o rozmiarze 0
+        List<Simulation> simulations = new ArrayList<>();
 
-            SimulationEngine engine = new SimulationEngine(simulations);
-            engine.runAsyncInThreadPool();
-            engine.awaitSimulationsEnd();
-        } catch (IllegalArgumentException | InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 1; i++) {
+            WorldMap grassField = new GrassField(10);
+            presenter.setWorldMap(grassField);          //przekazujemy mapę do prezentera
+            grassField.subscribe(display);
+            grassField.subscribe(presenter);
+            simulations.add(new Simulation(directions, positions, grassField));
         }
+
+        SimulationEngine engine = new SimulationEngine(simulations);
+        presenter.setEngine(engine);
+        /*engine.runAsyncInThreadPool();
+        engine.awaitSimulationsEnd();*/
+
+
+
     }
 
     private void configureStage(Stage primaryStage, BorderPane viewRoot) {
@@ -56,8 +59,6 @@ public class SimulationApp extends Application {  //dziedziczymy po Application
         primaryStage.setTitle("Simulation app");   //konfigurujemy okno
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
-
-        primaryStage.show();  // wyswietlamy okno
     }
 
 }

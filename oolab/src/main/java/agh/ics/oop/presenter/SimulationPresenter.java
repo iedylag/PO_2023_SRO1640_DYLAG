@@ -78,22 +78,27 @@ public class SimulationPresenter implements MapChangeListener {
         int width = Math.abs(boundary.lowLeftCorner().getY() - boundary.upRightCorner().getY()) + 1;
         int height = Math.abs(boundary.lowLeftCorner().getX() - boundary.upRightCorner().getX()) + 1;
 
+        for (int i = 0; i < height + 1; i++) {
+            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+        }
+        for (int i = 0; i < width + 1; i++) {
+            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+        }
+
         //komórka (0,0)
         Label mainCell = new Label("y/x");
         mapGrid.add(mainCell, 0, 0);
         GridPane.setHalignment(mainCell, HPos.CENTER);
 
         //label wierszy
-        for (int i = 0; i < height + 1; i++) {
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+        for (int i = 0; i < height; i++) {
             Label label = new Label(Integer.toString(boundary.lowLeftCorner().getX() + i));
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.add(label, i + 1, 0);
         }
 
         //label kolumn
-        for (int i = 0; i < width + 1; i++) {
-            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+        for (int i = 0; i < width; i++) {
             Label label = new Label(Integer.toString(boundary.upRightCorner().getY() - i));
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.add(label, 0, i + 1);

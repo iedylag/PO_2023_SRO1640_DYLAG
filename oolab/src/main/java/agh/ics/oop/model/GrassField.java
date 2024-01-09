@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
@@ -39,9 +41,9 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Collection<WorldElement> getElements() {
-        List<WorldElement> elements = new ArrayList<>(super.getElements());
-        elements.addAll(grasses.values());
-        return elements;
+        List<WorldElement> animalsList = new ArrayList<>(super.getElements());
+        List<Grass> grassesList = new ArrayList<>(grasses.values());
+        return Stream.concat(animalsList.stream(), grassesList.stream()).toList();
     }
 
     public int getGrassesSize() {
@@ -49,11 +51,9 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        WorldElement element = super.objectAt(position);
-        if (element != null) {
-            return element;
-        }
-        return grasses.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        Optional<WorldElement> element = super.objectAt(position);
+        return element
+                .or(() -> Optional.ofNullable(grasses.get(position)));
     }
 }

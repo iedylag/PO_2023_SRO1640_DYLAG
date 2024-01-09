@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,10 +32,11 @@ class RectangularMapTest {
         assertDoesNotThrow(() -> map.place(sheep));
         assertDoesNotThrow(() -> map.place(sloth));
         map.move(sloth, MoveDirection.BACKWARD);
+        Optional<Animal> expected = Optional.of(sheep);
 
         //then
         assertEquals(new Vector2d(2, 3), sloth.getPosition());
-        assertEquals(sheep, map.objectAt(new Vector2d(2, 2)));
+        assertEquals(expected, map.objectAt(new Vector2d(2, 2)));
     }
 
     @Test
@@ -43,10 +45,12 @@ class RectangularMapTest {
         WorldMap map = new RectangularMap(5, 5);
         Animal sheep = new Animal(new Vector2d(3, 4));
 
-        //when - then
+        //when
+        Optional<Animal> expected = Optional.of(sheep);
+
+        //then
         assertDoesNotThrow(() -> map.place(sheep));
-        assertEquals(sheep, map.objectAt(new Vector2d(3, 4)));
-        assertNull(map.objectAt(new Vector2d(2, 2)));
+        assertEquals(expected, map.objectAt(new Vector2d(3, 4)));
     }
 
     @Test

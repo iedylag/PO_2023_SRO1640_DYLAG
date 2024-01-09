@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,10 +27,13 @@ class GrassFieldTest {
         Animal sheep = new Animal();
         Animal sloth = new Animal(new Vector2d(2, 2));
 
-        //when - then
+        //when
+        Optional<Animal> expected = Optional.of(sheep);
+
+        // then
         assertDoesNotThrow(() -> map.place(sheep));
         assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(sloth));
-        assertEquals(sheep, map.objectAt(new Vector2d(2, 2)));
+        assertEquals(expected, map.objectAt(new Vector2d(2, 2)));
         assertNotEquals('*', map.objectAt(new Vector2d(2, 2)));
     }
 
@@ -48,10 +52,11 @@ class GrassFieldTest {
             e.printStackTrace();
         }
         map.move(sloth, MoveDirection.BACKWARD);
+        Optional<Animal> expected = Optional.of(sheep);
 
         //then
         assertEquals(new Vector2d(2, 3), sloth.getPosition());
-        assertEquals(sheep, map.objectAt(new Vector2d(2, 2)));
+        assertEquals(expected, map.objectAt(new Vector2d(2, 2)));
     }
 
     @Test
@@ -60,9 +65,12 @@ class GrassFieldTest {
         WorldMap map = new GrassField(10);
         Animal sheep = new Animal(new Vector2d(3, 4));
 
-        //when - then
+        //when
+        Optional<Animal> expected = Optional.of(sheep);
+
+        //then
         assertDoesNotThrow(() -> map.place(sheep));
-        assertEquals(sheep, map.objectAt(new Vector2d(3, 4)));
+        assertEquals(expected, map.objectAt(new Vector2d(3, 4)));
     }
 
     @Test

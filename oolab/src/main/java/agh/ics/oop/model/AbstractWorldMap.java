@@ -2,10 +2,8 @@ package agh.ics.oop.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -13,8 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public abstract class AbstractWorldMap implements WorldMap {
 
@@ -47,12 +43,13 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public Map<Vector2d, Animal> getOrderedAnimals() {
+    public Collection<Animal> getOrderedAnimals() {
         Comparator<Vector2d> positionComparator =
                 Comparator.comparingInt(Vector2d::getX).thenComparingInt(Vector2d::getY);
         return animals.keySet().stream()
                 .sorted(positionComparator)
-                .collect(Collectors.toMap(Function.identity(), animals::get, (key1, key2) -> key1, LinkedHashMap::new));
+                .map(animals::get)
+                .toList();
     }
 
     @Override

@@ -73,12 +73,8 @@ public class MapVisualizer {
     }
 
     private String drawObject(Vector2d currentPosition) {
-        if (this.map.isOccupied(currentPosition)) {
-            Optional<WorldElement> object = this.map.objectAt(currentPosition);
-            if (object.isPresent()) {
-                return object.get().toString();
-            }
-        }
-        return EMPTY_CELL;
+        return this.map.objectAt(currentPosition)
+                .map(WorldElement::toString)  //jak cos tam jest to wywolaj na nim toString
+                .orElse(EMPTY_CELL);  //a jak nic tam nie ma to zwroc EMPTY_CELL
     }
 }

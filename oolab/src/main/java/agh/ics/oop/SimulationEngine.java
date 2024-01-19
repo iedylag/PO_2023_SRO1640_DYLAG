@@ -1,5 +1,8 @@
 package agh.ics.oop;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -42,6 +45,6 @@ public class SimulationEngine {
         for (Simulation simulation : simulations) {
             executorService.submit(simulation);
         }
-
     }
+
 }

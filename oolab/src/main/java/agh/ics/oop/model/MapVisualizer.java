@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.Optional;
+
 /**
  * The map visualizer converts the {@link WorldMap} map into a string
  * representation.
@@ -71,12 +73,8 @@ public class MapVisualizer {
     }
 
     private String drawObject(Vector2d currentPosition) {
-        if (this.map.isOccupied(currentPosition)) {
-            Object object = this.map.objectAt(currentPosition);
-            if (object != null) {
-                return object.toString();
-            }
-        }
-        return EMPTY_CELL;
+        return this.map.objectAt(currentPosition)
+                .map(WorldElement::toString)  //jak cos tam jest to wywolaj na nim toString
+                .orElse(EMPTY_CELL);  //a jak nic tam nie ma to zwroc EMPTY_CELL
     }
 }

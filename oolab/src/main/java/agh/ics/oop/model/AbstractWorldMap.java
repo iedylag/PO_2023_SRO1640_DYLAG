@@ -2,20 +2,21 @@ package agh.ics.oop.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public abstract class AbstractWorldMap implements WorldMap {
 
     private final Map<Vector2d, Animal> animals = new HashMap<>();
-    private final Set<MapChangeListener> observers = new HashSet<>(); //lista obserwatorów
+    private final BlockingDeque<MapChangeListener> observers = new LinkedBlockingDeque<>(); //lista obserwatorów
     private final UUID mapId = UUID.randomUUID();
-    ;
 
     @Override
     public UUID getId() {
@@ -39,6 +40,16 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public List<Animal> getAnimals() {
         return List.copyOf(animals.values());
+    }
+
+    @Override
+    public Collection<Animal> getOrderedAnimals() {
+        Comparator<Vector2d> positionComparator =
+                Comparator.comparingInt(Vector2d::getX).thenComparingInt(Vector2d::getY);
+        return animals.keySet().stream()
+                .sorted(positionComparator)
+                .map(animals::get)
+                .toList();
     }
 
     @Override
@@ -71,15 +82,15 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (!Objects.equals(oldPosition, newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
-            mapChanged("Animal moved to " + newPosition + " and is heading " + animal.getOrientation());
+            mapChanged("Animal moved from " + oldPosition + " to " + newPosition + " and is heading " + animal.getOrientation());
         } else {
             mapChanged("Animal remains in position, but heads " + animal.getOrientation());
         }
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return Optional.ofNullable(animals.get(position));
     }
 
     @Override
